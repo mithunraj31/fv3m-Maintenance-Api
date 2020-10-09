@@ -39,6 +39,11 @@ class Device extends Model
 
     public function maintenances()
     {
-        return $this->belongsTo('App\Models\Maintenance','device_id');
+        return $this->hasMany('App\Models\Maintenance','device_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('App\Models\DeviceImage','device_id');
     }
 }

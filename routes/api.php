@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeviceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,5 +26,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('/customer', CustomerController::class);
     // Customer Devices
     Route::get('/customer/{customer}/device', [CustomerController::class, 'getDevices']);
+
+});
+
+Route::group(['middleware' => 'auth:api'], function () {
+    // CRUD Operations
+    Route::apiResource('/device', DeviceController::class);
 
 });

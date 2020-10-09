@@ -77,6 +77,8 @@ class CustomerController extends Controller
         $request->user_id = Auth::user()->id;
 
         $customer->update($request->all());
+
+        return $customer;
     }
 
     /**
