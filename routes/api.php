@@ -22,17 +22,17 @@ Route::middleware('auth:api')->get('/user', [UserController::class, 'index']);
 
 // Route::middleware('auth:api')->get('/customer', [CustomerController::class, 'index']);
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['prefix' => 'v1','middleware' => 'auth:api'], function () {
     // CRUD Operations
     Route::apiResource('/customer', CustomerController::class);
     // Customer Devices
-    Route::get('/customer/{customer}/device', [CustomerController::class, 'getDevices']);
+    Route::get('/customers/{customer}/devices', [CustomerController::class, 'getDevices']);
 
 });
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['prefix' => 'v1','middleware' => 'auth:api'], function () {
     // CRUD Operations
-    Route::apiResource('/device', DeviceController::class);
+    Route::apiResource('/devices', DeviceController::class);
 
 });
 Route::group(['prefix' => 'v1'], function () {
