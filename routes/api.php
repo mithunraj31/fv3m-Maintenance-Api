@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\API\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,3 +35,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('/device', DeviceController::class);
 
 });
+Route::group(['prefix' => 'v1'], function () {
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
