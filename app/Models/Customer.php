@@ -16,15 +16,16 @@ class Customer extends Model
      */
     protected $fillable = [
         'name',
+        'description'
     ];
 
     public function user()
     {
-        return $this->belongsTo('App\user','user_id');
+        return $this->belongsTo('App\Models\User','user_id');
     }
 
     public function devices()
     {
-        return $this->hasMany('App\Device','customer_id');
+        return $this->hasMany('App\Models\Device','customer_id');
     }
 }

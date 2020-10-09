@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CustomerResource;
+use App\Http\Resources\CustomerResources;
+use App\Http\Resources\Customers;
+use App\Http\Resources\DeviceResources;
 use App\Models\Customer;
+use App\Models\Device;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -12,9 +18,10 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request):CustomerResources
     {
-        //
+        $perPage = $request->query('perPage')?(int)$request->query('perPage'):15;
+        return new CustomerResources(Customer::with('user')->paginate($perPage));
     }
 
 
@@ -26,7 +33,18 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validating
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'nullable|max:255',
+        ]);
+        $group = new Customer($validatedData);
+
+        $group->user_id = Auth::user()->id;
+
+        $group->save();
+
+        return response($group, 201);
     }
 
     /**
@@ -37,7 +55,8 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        $customer = new CustomerResource($customer->load(['user']));
+        return $customer;
     }
 
     /**
@@ -49,7 +68,15 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        //validating
+        $request->validate([
+            'name' => 'max:255',
+            'description' => 'nullable|max:255',
+        ]);
+
+        $request->user_id = Auth::user()->id;
+
+        $customer->update($request->all());
     }
 
     /**
@@ -60,6 +87,18 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return response(['message' => 'Success!'], 200);
+    }
+
+    /**
+     * Display the Device Collection resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getDevices($customer, Request $request)
+    {   $perPage = $request->query('perPage')?(int)$request->query('perPage'):15;
+        return new DeviceResources(Device::where('customer_id',$customer)->paginate($perPage));
+
     }
 }

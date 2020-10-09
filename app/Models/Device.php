@@ -24,21 +24,21 @@ class Device extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User','user_id');
+        return $this->belongsTo('App\Models\User','user_id');
     }
 
     public function customer()
     {
-        return $this->belongsTo('App\Customer','customer_id');
+        return $this->belongsTo('App\Models\Customer','customer_id');
     }
 
     public function status()
     {
-        return $this->belongsTo('App\Status','status_id');
+        return $this->belongsTo('App\Models\Status','status_id');
     }
 
     public function maintenances()
     {
-        return $this->belongsTo('App\Maintenance','device_id');
+        return $this->belongsTo('App\Models\Maintenance','device_id');
     }
 }

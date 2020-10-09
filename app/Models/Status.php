@@ -21,6 +21,6 @@ class Status extends Model
 
     public function device()
     {
-        return $this->hasOne('App\Device','status_id');
+        return $this->hasOne('App\Models\Device','status_id');
     }
 }

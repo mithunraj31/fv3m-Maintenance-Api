@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', [UserController::class, 'index']);
 
 
+// Route::middleware('auth:api')->get('/customer', [CustomerController::class, 'index']);
+
+Route::group(['middleware' => 'auth:api'], function () {
+    // CRUD Operations
+    Route::apiResource('/customer', CustomerController::class);
+    // Customer Devices
+    Route::get('/customer/{customer}/device', [CustomerController::class, 'getDevices']);
+
+});

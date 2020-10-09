@@ -21,16 +21,16 @@ class Memo extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User','user_id');
+        return $this->belongsTo('App\Models\User','user_id');
     }
 
     public function maintenance()
     {
-        return $this->belongsTo('App\Maintenance','maintenance_id');
+        return $this->belongsTo('App\Models\Maintenance','maintenance_id');
     }
 
     public function images()
     {
-        return $this->hasMany('App\MemoImage','memo_id');
+        return $this->hasMany('App\Models\MemoImage','memo_id');
     }
 }
