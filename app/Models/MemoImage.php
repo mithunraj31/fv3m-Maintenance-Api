@@ -21,6 +21,6 @@ class MemoImage extends Model
 
     public function memo()
     {
-        return $this->belongsTo('App\Memo','memo_id');
+        return $this->belongsTo('App\Models\Memo','memo_id');
     }
 }

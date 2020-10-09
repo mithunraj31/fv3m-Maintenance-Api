@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DeviceResource;
 use App\Models\Device;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DeviceController extends Controller
 {
@@ -12,19 +14,10 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $perPage = $request->query('perPage')?(int)$request->query('perPage'):15;
+        return new DeviceResource(Device::with('user')->paginate($perPage));
     }
 
     /**
@@ -35,7 +28,27 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validating
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'lat' => 'nullable|max:30',
+            'lng' => 'nullable|max:30',
+            'customer_id' => 'required|exists:App\Models\Customer,id',
+            'status_id' => 'required|exists:App\Models\Status,id',
+            'url.*'=> 'url'
+        ]);
+
+        $device = new Device($validatedData);
+        $device->user_id = Auth::user()->id;
+        $device->save();
+
+        $urls = [];
+        foreach ($request->url as $url) {
+            $urls[] = ['url' => $url];
+        }
+        $device->images()->createMany($urls);
+
+        return response($device->load('images'), 201);
     }
 
     /**
@@ -46,18 +59,9 @@ class DeviceController extends Controller
      */
     public function show(Device $device)
     {
-        //
-    }
+        $device = new DeviceResource($device->load(['user','status','customer','images']));
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Device  $device
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Device $device)
-    {
-        //
+        return $device;
     }
 
     /**
@@ -69,7 +73,31 @@ class DeviceController extends Controller
      */
     public function update(Request $request, Device $device)
     {
-        //
+        //validating
+        $validatedData = $request->validate([
+            'name' => 'max:255',
+            'lat' => 'nullable|max:30',
+            'lng' => 'nullable|max:30',
+            'customer_id' => 'exists:App\Models\Customer,id',
+            'status_id' => 'exists:App\Models\Status,id',
+            'url.*'=> 'url'
+        ]);
+
+        $device->update($request->all());
+
+        // Update image list
+        if($request->url){
+            $device->images()->delete();
+
+            $urls = [];
+            foreach ($request->url as $url) {
+                $urls[] = ['url' => $url];
+            }
+            $device->images()->createMany($urls);
+        }
+
+        return response($device);
+
     }
 
     /**
@@ -80,6 +108,8 @@ class DeviceController extends Controller
      */
     public function destroy(Device $device)
     {
-        //
+        $device->images()->delete();
+        $device->delete();
+        return response(['message' => 'Success!'], 200);
     }
 }

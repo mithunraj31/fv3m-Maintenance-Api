@@ -21,6 +21,6 @@ class MaintenanceImage extends Model
 
     public function maintenance()
     {
-        return $this->belongsTo('App\Maintenance','maintenance_id');
+        return $this->belongsTo('App\Models\Maintenance','maintenance_id');
     }
 }

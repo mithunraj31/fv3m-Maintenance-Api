@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class DeviceImage extends Model
 {
     use HasFactory;
 
@@ -15,17 +15,12 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description'
+        'url',
+        'device_id'
     ];
 
-    public function user()
+    public function device()
     {
-        return $this->belongsTo('App\Models\User','user_id');
-    }
-
-    public function devices()
-    {
-        return $this->hasMany('App\Models\Device','customer_id');
+        return $this->belongsTo('App\Models\Device','device_id');
     }
 }

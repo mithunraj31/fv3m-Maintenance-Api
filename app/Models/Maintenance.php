@@ -24,21 +24,21 @@ class Maintenance extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User','user_id');
+        return $this->belongsTo('App\Models\User','user_id');
     }
 
     public function device()
     {
-        return $this->belongsTo('App\Device','device_id');
+        return $this->belongsTo('App\Models\Device','device_id');
     }
 
     public function memos()
     {
-        return $this->hasMany('App\Memo','maintenance_id');
+        return $this->hasMany('App\Models\Memo','maintenance_id');
     }
 
     public function images()
     {
-        return $this->hasMany('App\MaintenanceImage','maintenance_id');
+        return $this->hasMany('App\Models\MaintenanceImage','maintenance_id');
     }
 }
