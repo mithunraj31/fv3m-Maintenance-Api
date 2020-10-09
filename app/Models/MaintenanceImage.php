@@ -16,10 +16,11 @@ class MaintenanceImage extends Model
      */
     protected $fillable = [
         'url',
+        'maintenance_id'
     ];
 
     public function maintenance()
     {
-        return $this->belongsTo('App\User','user_id');
+        return $this->belongsTo('App\Maintenance','maintenance_id');
     }
 }

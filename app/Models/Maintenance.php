@@ -19,8 +19,6 @@ class Maintenance extends Model
         'lat',
         'lng',
         'device_id',
-
-
     ];
 
 
