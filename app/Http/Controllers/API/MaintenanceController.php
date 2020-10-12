@@ -111,7 +111,6 @@ class MaintenanceController extends Controller
      */
     public function destroy(Maintenance $maintenance)
     {
-        $maintenance->images()->delete();
         $maintenance->delete();
         return response(['message' => 'Success!'], 200);
     }

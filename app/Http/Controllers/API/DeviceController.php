@@ -109,7 +109,6 @@ class DeviceController extends Controller
      */
     public function destroy(Device $device)
     {
-        $device->images()->delete();
         $device->delete();
         return response(['message' => 'Success!'], 200);
     }
