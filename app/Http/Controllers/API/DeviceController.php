@@ -37,7 +37,7 @@ class DeviceController extends Controller
             'lng' => 'nullable|max:30',
             'customer_id' => 'required|exists:App\Models\Customer,id',
             'status_id' => 'required|exists:App\Models\Status,id',
-            'url.*' => 'url'
+            'imageUrls.*' => 'url'
         ]);
 
         $device = new Device($validatedData);
@@ -45,7 +45,7 @@ class DeviceController extends Controller
         $device->save();
 
         $urls = [];
-        foreach ($request->url as $url) {
+        foreach ($request->imageUrls as $url) {
             $urls[] = ['url' => $url];
         }
         $device->images()->createMany($urls);
@@ -82,13 +82,13 @@ class DeviceController extends Controller
             'lng' => 'nullable|max:30',
             'customer_id' => 'exists:App\Models\Customer,id',
             'status_id' => 'exists:App\Models\Status,id',
-            'url.*' => 'url'
+            'imageUrls.*' => 'url'
         ]);
 
         $device->update($request->all());
 
         // Update image list
-        if ($request->url) {
+        if ($request->imageUrls) {
             $device->images()->delete();
 
             $urls = [];

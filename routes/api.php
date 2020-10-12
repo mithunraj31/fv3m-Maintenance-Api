@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\MemoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +47,11 @@ Route::group(['prefix' => 'v1','middleware' => 'auth:api'], function () {
     Route::apiResource('/maintenances', MaintenanceController::class);
     // Maintenances Memos
     Route::get('/maintenances/{maintenance}/memos', [MaintenanceController::class , 'getMemos']);
+});
+
+Route::group(['prefix' => 'v1','middleware' => 'auth:api'], function () {
+    // CRUD Operations
+    Route::apiResource('/memos', MemoController::class);
 });
 
 
