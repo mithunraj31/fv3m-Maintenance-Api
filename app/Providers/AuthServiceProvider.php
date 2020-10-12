@@ -27,5 +27,16 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
         Passport::routes();
         //
+
+        // Mandatory to define Scope
+        Passport::tokensCan([
+            'admin' => 'Admin',
+            'user' => 'Normal user who enters data',
+            'read-only' => 'Read only'
+        ]);
+
+        Passport::setDefaultScope([
+            'read-only'
+        ]);
     }
 }

@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Laravel\Passport\Exceptions\MissingScopeException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -35,6 +38,18 @@ class Handler extends ExceptionHandler
     {
         //
     }
+    /**
+     * Report or log an exception.
+     *
+     * @param  \Throwable  $exception
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function report(Throwable $exception)
+    {
+        parent::report($exception);
+    }
 
     /**
      * Convert an authentication exception into a response.
@@ -46,9 +61,16 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $request->expectsJson()
-                    ? response()->json(['message' => $exception->getMessage()], 401)
-                    : response()->json(['message' => $exception->getMessage()], 401); // ここを変更する
+            ? response()->json(['message' => $exception->getMessage()], 401)
+            : response()->json(['message' => $exception->getMessage()], 401); // ここを変更する
     }
 
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof AccessDeniedHttpException || $exception instanceof MissingScopeException) {
+            return response()->json(['message' => 'Access Denied!'], 403);
+        }
 
+        return parent::render($request, $exception);
+    }
 }
