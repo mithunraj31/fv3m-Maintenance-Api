@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\DeviceResource;
+use App\Http\Resources\MaintenanceResources;
 use App\Models\Device;
+use App\Models\Maintenance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +18,7 @@ class DeviceController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->query('perPage')?(int)$request->query('perPage'):15;
+        $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
         return new DeviceResource(Device::with('user')->paginate($perPage));
     }
 
@@ -35,7 +37,7 @@ class DeviceController extends Controller
             'lng' => 'nullable|max:30',
             'customer_id' => 'required|exists:App\Models\Customer,id',
             'status_id' => 'required|exists:App\Models\Status,id',
-            'url.*'=> 'url'
+            'imageUrls.*' => 'url'
         ]);
 
         $device = new Device($validatedData);
@@ -43,7 +45,7 @@ class DeviceController extends Controller
         $device->save();
 
         $urls = [];
-        foreach ($request->url as $url) {
+        foreach ($request->imageUrls as $url) {
             $urls[] = ['url' => $url];
         }
         $device->images()->createMany($urls);
@@ -59,7 +61,7 @@ class DeviceController extends Controller
      */
     public function show(Device $device)
     {
-        $device = new DeviceResource($device->load(['user','status','customer','images']));
+        $device = new DeviceResource($device->load(['user', 'status', 'customer', 'images']));
 
         return $device;
     }
@@ -80,13 +82,13 @@ class DeviceController extends Controller
             'lng' => 'nullable|max:30',
             'customer_id' => 'exists:App\Models\Customer,id',
             'status_id' => 'exists:App\Models\Status,id',
-            'url.*'=> 'url'
+            'imageUrls.*' => 'url'
         ]);
 
         $device->update($request->all());
 
         // Update image list
-        if($request->url){
+        if ($request->imageUrls) {
             $device->images()->delete();
 
             $urls = [];
@@ -97,7 +99,6 @@ class DeviceController extends Controller
         }
 
         return response($device);
-
     }
 
     /**
@@ -111,5 +112,15 @@ class DeviceController extends Controller
         $device->images()->delete();
         $device->delete();
         return response(['message' => 'Success!'], 200);
+    }
+
+    /**
+     * Get Maintenance info of a Device
+     *
+     */
+    public function getMaintenances($device, Request $request)
+    {
+        $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
+        return new MaintenanceResources(Maintenance::where('device_id',$device)->with(['user','images'])->paginate($perPage));
     }
 }

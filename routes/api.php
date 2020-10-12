@@ -4,6 +4,8 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\MemoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +19,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['prefix' => 'v1'], function () {
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+
 Route::middleware('auth:api')->get('/user', [UserController::class, 'index']);
 
-
-// Route::middleware('auth:api')->get('/customer', [CustomerController::class, 'index']);
 
 Route::group(['prefix' => 'v1','middleware' => 'auth:api'], function () {
     // CRUD Operations
@@ -33,9 +38,21 @@ Route::group(['prefix' => 'v1','middleware' => 'auth:api'], function () {
 Route::group(['prefix' => 'v1','middleware' => 'auth:api'], function () {
     // CRUD Operations
     Route::apiResource('/devices', DeviceController::class);
+    // Device Maintenances
+    Route::get('/devices/{device}/maintenances', [DeviceController::class , 'getMaintenances']);
+});
 
+Route::group(['prefix' => 'v1','middleware' => 'auth:api'], function () {
+    // CRUD Operations
+    Route::apiResource('/maintenances', MaintenanceController::class);
+    // Maintenances Memos
+    Route::get('/maintenances/{maintenance}/memos', [MaintenanceController::class , 'getMemos']);
 });
-Route::group(['prefix' => 'v1'], function () {
-    Route::post('/login', [AuthController::class, 'login']);
+
+Route::group(['prefix' => 'v1','middleware' => 'auth:api'], function () {
+    // CRUD Operations
+    Route::apiResource('/memos', MemoController::class);
 });
+
+
 
