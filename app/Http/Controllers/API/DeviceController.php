@@ -92,7 +92,7 @@ class DeviceController extends Controller
             $device->images()->delete();
 
             $urls = [];
-            foreach ($request->url as $url) {
+            foreach ($request->imageUrls as $url) {
                 $urls[] = ['url' => $url];
             }
             $device->images()->createMany($urls);
