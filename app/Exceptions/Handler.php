@@ -2,10 +2,14 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Laravel\Passport\Exceptions\InvalidAuthTokenException;
 use Laravel\Passport\Exceptions\MissingScopeException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -70,7 +74,19 @@ class Handler extends ExceptionHandler
         if ($exception instanceof AccessDeniedHttpException || $exception instanceof MissingScopeException) {
             return response()->json(['message' => 'Access Denied!'], 403);
         }
+        if ($exception instanceof ModelNotFoundException && $request->wantsJson()) {
+            return response()->json(['message' => 'Resource Not Found!'], 404);
+        }
 
+        if($exception instanceof InvalidAuthTokenException && $request->wantsJson()) {
+            return response()->json(['message' => 'Token Expired'], 401);
+        }
+        if($exception instanceof NotFoundHttpException && $request->wantsJson()) {
+            return response()->json(['message' => 'Url Not Found!'], 404);
+        }
+        if($exception instanceof AuthorizationException && $request->wantsJson()) {
+            return response()->json(['message' => 'This action is unauthorized!'], 403);
+        }
         return parent::render($request, $exception);
     }
 }
