@@ -11,7 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
+    /**
+     * @OA\Get(
+     *     path="/users",
+     *     @OA\Response(response="200", description="Display a listing of projects.")
+     * )
+     */
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
