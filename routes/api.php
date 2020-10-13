@@ -25,23 +25,23 @@ Route::post('v1/login', [AuthController::class, 'login']);
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     // User Routes
     // Get all users
-    Route::get('/user', [UserController::class, 'index'])->middleware(['scope:admin']); // Admin
+    Route::get('/users', [UserController::class, 'index'])->middleware(['scope:admin']); // Admin
     // create new user
-    Route::middleware(['scopes:admin'])->post('/user', [UserController::class, 'store']); // Admin
+    Route::middleware(['scopes:admin'])->post('/users', [UserController::class, 'store']); // Admin
     // update exsisting user
-    Route::put('/user/{user}', [UserController::class, 'update']); // Admin or current user
+    Route::put('/users/{user}', [UserController::class, 'update']); // Admin or current user
     // get user by id
-    Route::get('/user/{user}', [UserController::class, 'show']); // Admin or current user
+    Route::get('/users/{user}', [UserController::class, 'show']); // Admin or current user
 
 
 
     // Customers routes
     // CRUD Operations
-    Route::middleware(['scope:admin,user,read-only'])->get('/customer', [CustomerController::class, 'index']);
-    Route::middleware(['scope:admin'])->post('/customer', [CustomerController::class, 'store']);
-    Route::middleware(['scope:admin,user,read-only'])->get('/customer/{customer}', [CustomerController::class, 'show']);
-    Route::middleware(['scope:admin'])->put('/customer/{customer}', [CustomerController::class, 'update']);
-    Route::middleware(['scope:admin'])->delete('/customer/{customer}', [CustomerController::class, 'destroy']);
+    Route::middleware(['scope:admin,user,read-only'])->get('/customers', [CustomerController::class, 'index']);
+    Route::middleware(['scope:admin'])->post('/customers', [CustomerController::class, 'store']);
+    Route::middleware(['scope:admin,user,read-only'])->get('/customers/{customer}', [CustomerController::class, 'show']);
+    Route::middleware(['scope:admin'])->put('/customers/{customer}', [CustomerController::class, 'update']);
+    Route::middleware(['scope:admin'])->delete('/customers/{customer}', [CustomerController::class, 'destroy']);
     // Customer Devices
     Route::middleware(['scope:admin,user,read-only'])->get('/customers/{customer}/devices', [CustomerController::class, 'getDevices']);
 
@@ -49,32 +49,31 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
     // Devices routes
     // CRUD Operations
-    Route::middleware(['scope:admin,user,read-only'])->get('/devices',[DeviceController::class, 'index']);
-    Route::middleware(['scope:admin,user'])->post('/devices',[DeviceController::class, 'store']);
-    Route::middleware(['scope:admin,user,read-only'])->get('/devices/{device}',[DeviceController::class, 'show']);
-    Route::middleware(['scope:admin,user'])->put('/devices/{device}',[DeviceController::class, 'update']);
-    Route::middleware(['scope:admin'])->delete('/devices/{device}',[DeviceController::class, 'destroy']);
+    Route::middleware(['scope:admin,user,read-only'])->get('/devices', [DeviceController::class, 'index']);
+    Route::middleware(['scope:admin,user'])->post('/devices', [DeviceController::class, 'store']);
+    Route::middleware(['scope:admin,user,read-only'])->get('/devices/{device}', [DeviceController::class, 'show']);
+    Route::middleware(['scope:admin,user'])->put('/devices/{device}', [DeviceController::class, 'update']);
+    Route::middleware(['scope:admin'])->delete('/devices/{device}', [DeviceController::class, 'destroy']);
     // Device Maintenances
     Route::middleware(['scope:admin,user,read-only'])->get('/devices/{device}/maintenances', [DeviceController::class, 'getMaintenances']);
 
 
     // Maintenances routes
     // CRUD Operations
-    Route::middleware(['scope:admin,user,read-only'])->get('/maintenances',[MaintenanceController::class, 'index']);
-    Route::middleware(['scope:admin,user'])->post('/maintenances',[MaintenanceController::class, 'store']);
-    Route::middleware(['scope:admin,user,read-only'])->get('/maintenances',[MaintenanceController::class, 'show']);
-    Route::middleware(['scope:admin,user'])->put('/maintenances',[MaintenanceController::class, 'update']);
-    Route::middleware(['scope:admin'])->delete('/maintenances',[MaintenanceController::class, 'destroy']);
+    Route::middleware(['scope:admin,user,read-only'])->get('/maintenances', [MaintenanceController::class, 'index']);
+    Route::middleware(['scope:admin,user'])->post('/maintenances', [MaintenanceController::class, 'store']);
+    Route::middleware(['scope:admin,user,read-only'])->get('/maintenances', [MaintenanceController::class, 'show']);
+    Route::middleware(['scope:admin,user'])->put('/maintenances', [MaintenanceController::class, 'update']);
+    Route::middleware(['scope:admin'])->delete('/maintenances', [MaintenanceController::class, 'destroy']);
     // Maintenances Memos
     Route::middleware(['scope:admin,user,read-only'])->get('/maintenances/{maintenance}/memos', [MaintenanceController::class, 'getMemos']);
 
 
     // Memos routes
     // CRUD Operations
-    Route::middleware(['scope:admin,user,read-only'])->get('/memos',[MemoController::class, 'index']);
-    Route::middleware(['scope:admin,user'])->post('/memos',[MemoController::class, 'store']);
-    Route::middleware(['scope:admin,user,read-only'])->get('/memos',[MemoController::class, 'show']);
-    Route::middleware(['scope:admin,user'])->put('/memos',[MemoController::class, 'update']);
-    Route::middleware(['scope:admin'])->delete('/memos',[MemoController::class, 'destroy']);
-
+    Route::middleware(['scope:admin,user,read-only'])->get('/memos', [MemoController::class, 'index']);
+    Route::middleware(['scope:admin,user'])->post('/memos', [MemoController::class, 'store']);
+    Route::middleware(['scope:admin,user,read-only'])->get('/memos', [MemoController::class, 'show']);
+    Route::middleware(['scope:admin,user'])->put('/memos', [MemoController::class, 'update']);
+    Route::middleware(['scope:admin'])->delete('/memos', [MemoController::class, 'destroy']);
 });
