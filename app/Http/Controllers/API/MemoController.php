@@ -104,7 +104,6 @@ class MemoController extends Controller
      */
     public function destroy(Memo $memo)
     {
-        $memo->images()->delete();
         $memo->delete();
         return response(['message' => 'Success!'], 200);
     }

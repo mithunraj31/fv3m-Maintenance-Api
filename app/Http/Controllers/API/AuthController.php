@@ -20,8 +20,9 @@ class AuthController extends Controller
             return response(['message' => 'Invalid Credentials']);
         }
         $user = User::find(Auth::user()->id);
-        $accessToken =  $user->createToken($user->email)->accessToken;
+        $accessToken =  $user->createToken($user->email,[$user->role])->accessToken;
 
         return response(['user' => auth()->user(), 'access_token' => $accessToken]);
     }
+
 }

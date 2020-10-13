@@ -92,7 +92,7 @@ class DeviceController extends Controller
             $device->images()->delete();
 
             $urls = [];
-            foreach ($request->url as $url) {
+            foreach ($request->imageUrls as $url) {
                 $urls[] = ['url' => $url];
             }
             $device->images()->createMany($urls);
@@ -109,7 +109,6 @@ class DeviceController extends Controller
      */
     public function destroy(Device $device)
     {
-        $device->images()->delete();
         $device->delete();
         return response(['message' => 'Success!'], 200);
     }
