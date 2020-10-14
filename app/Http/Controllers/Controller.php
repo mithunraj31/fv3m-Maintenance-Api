@@ -16,12 +16,17 @@ class Controller extends BaseController
      *      ),
      *      @OA\License(
      *          name="MBEL",
-     *          url="http://www.mbel.co.jp/"
+     *          url="http://www.mbel.co.jp/",
      *      ))
      *
      * @OA\Server(
      *      url=L5_SWAGGER_CONST_HOST,
-     *      description="Open API Server"
+     *      description="Local API Server"
+     * )
+     *
+     * @OA\Server(
+     *      url=L5_SWAGGER_STAGING_HOST,
+     *      description="Staging API Server"
      * )
      *
      *

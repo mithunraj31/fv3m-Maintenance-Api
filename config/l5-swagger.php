@@ -199,6 +199,7 @@ return [
          */
         'constants' => [
             'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://fv3m.jp:8000/api/v1'),
+            'L5_SWAGGER_STAGING_HOST' => env('L5_SWAGGER_STAGING_HOST', 'http://3.112.130.195:8080/api/v1')
         ],
     ],
 ];

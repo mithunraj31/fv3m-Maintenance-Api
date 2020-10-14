@@ -14,7 +14,11 @@
     "servers": [
         {
             "url": "http://fv3m.jp:8000/api/v1",
-            "description": "Open API Server"
+            "description": "Local API Server"
+        },
+        {
+            "url": "http://3.112.130.195:8080/api/v1",
+            "description": "Staging API Server"
         }
     ],
     "paths": {
@@ -23,8 +27,8 @@
                 "tags": [
                     "Login"
                 ],
-                "summary": "Register user",
-                "description": "Returns new user data",
+                "summary": "Aunthenticate user",
+                "description": "Returns token",
                 "operationId": "App\\Http\\Controllers\\API\\AuthController::login",
                 "requestBody": {
                     "description": "Pass user credentials",

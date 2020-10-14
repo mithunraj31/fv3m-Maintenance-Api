@@ -13,8 +13,8 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/login",
      *      tags={"Login"},
-     *      summary="Register user",
-     *      description="Returns new user data",
+     *      summary="Aunthenticate user",
+     *      description="Returns token",
      *      @OA\RequestBody(
      *       required=true,
      *       description="Pass user credentials",
