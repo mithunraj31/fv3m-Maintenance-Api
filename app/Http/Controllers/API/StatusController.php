@@ -12,26 +12,60 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *     path="/status",
+     *     tags={"Status"},
+     *     summary="Get list of status",
+     *       @OA\Parameter(
+     *          name="perPage",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *    @OA\Parameter(
+     *          name="page",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *     @OA\Response(response="200",
+     *      description="returns list of status with pagination .",
+     *      @OA\JsonContent( type="array",
+     *         @OA\Items(ref=""))),
+     *     @OA\Response(response="403", description="Access denied!.")
+     * )
+     */
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Post(
+     *      path="/status",
+     *      tags={"Status"},
+     *      summary="Store new status",
+     *      description="Returns status data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *       @OA\JsonContent(ref="")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns stored status data",
+     *        @OA\JsonContent(ref="")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -44,21 +78,31 @@ class StatusController extends Controller
      * @param  \App\Models\Status  $status
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *      path="/status/{id}",
+     *      tags={"Status"},
+     *      summary="Get status By Id",
+     *      description="Get Individual status data according to status-id",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns status data",
+     *       @OA\JsonContent(ref="")),
+     *       )
+     *
+     * )
+     */
     public function show(Status $status)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Status  $status
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Status $status)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -66,6 +110,30 @@ class StatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Status  $status
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Put(
+     *      path="/status/{id}",
+     *      tags={"Status"},
+     *      summary="Update status",
+     *      description="updates status data",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *      @OA\JsonContent(ref="")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns updated status data",
+     *        @OA\JsonContent(ref="")
+     *       )
+     *
+     * )
      */
     public function update(Request $request, Status $status)
     {
@@ -77,6 +145,26 @@ class StatusController extends Controller
      *
      * @param  \App\Models\Status  $status
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Delete(
+     *      path="/status/{id}",
+     *      tags={"Status"},
+     *      summary="Delete status",
+     *      description="delete status data",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=201,
+     *          description="Success",
+     *       )
+     *
+     * )
      */
     public function destroy(Status $status)
     {

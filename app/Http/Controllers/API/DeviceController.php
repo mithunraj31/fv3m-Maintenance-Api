@@ -16,6 +16,28 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *     path="/devices",
+     *     tags={"Devices"},
+     *     summary="Get list of devices",
+     *     @OA\Parameter(
+     *          name="perPage",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *     @OA\Parameter(
+     *          name="page",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *     @OA\Response(response="200",
+     *      description="returns list of devices with pagination .",
+     *      @OA\JsonContent( type="array",
+     *         @OA\Items(ref=""))),
+     *     @OA\Response(response="403", description="Access denied!.")
+     * )
+     */
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
@@ -27,6 +49,39 @@ class DeviceController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Post(
+     *      path="/devices",
+     *      tags={"Devices"},
+     *      summary="Store new device",
+     *      description="Returns device data",
+     *     @OA\RequestBody(
+     *       required=true,
+     *       description="Pass user credentials",
+     *       @OA\JsonContent(
+     *       required={"name"},
+     *       @OA\Property(property="name", type="string", example="forklift"),
+     *       @OA\Property(property="lat", type="string",  example="35.26"),
+     *       @OA\Property(property="lng", type="string", example="176.2"),
+     *       @OA\Property(property="customer_id", type="int",  example="1"),
+     *       @OA\Property(property="status_id", type="int", example="1"),
+     *       @OA\Property(property="imageUrls", type="array",  @OA\Items(
+     *          type="array",
+     *          @OA\Items()
+     *      ), example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *    ),
+     * ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns stored device data",
+     *        @OA\JsonContent(ref="")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -59,6 +114,26 @@ class DeviceController extends Controller
      * @param  \App\Models\Device  $device
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *      path="/devices/{id}",
+     *      tags={"Devices"},
+     *      summary="Get device By Id",
+     *      description="Get Individual device data according to device-id",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns device data",
+     *       @OA\JsonContent(ref="")),
+     *       )
+     *
+     * )
+     */
     public function show(Device $device)
     {
         $device = new DeviceResource($device->load(['user', 'status', 'customer', 'images']));
@@ -72,6 +147,42 @@ class DeviceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Device  $device
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Put(
+     *      path="/devices/{id}",
+     *      tags={"Devices"},
+     *      summary="Update device",
+     *      description="updates device data",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *      @OA\RequestBody(
+     *       required=true,
+     *       description="Pass user credentials",
+     *       @OA\JsonContent(
+     *       required={"name"},
+     *       @OA\Property(property="name", type="string", example="forklift"),
+     *       @OA\Property(property="lat", type="string",  example="35.26"),
+     *       @OA\Property(property="lng", type="string", example="176.2"),
+     *       @OA\Property(property="customer_id", type="int",  example="1"),
+     *       @OA\Property(property="status_id", type="int", example="1"),
+     *       @OA\Property(property="imageUrls", type="array",  @OA\Items(
+     *          type="array",
+     *          @OA\Items()
+     *      ), example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *    ),
+     * ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns updated devices data",
+     *        @OA\JsonContent(ref="")
+     *       )
+     *
+     * )
      */
     public function update(Request $request, Device $device)
     {
@@ -107,6 +218,26 @@ class DeviceController extends Controller
      * @param  \App\Models\Device  $device
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Delete(
+     *      path="/devices/{id}",
+     *      tags={"Devices"},
+     *      summary="Delete device",
+     *      description="delete device data",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=201,
+     *          description="Success",
+     *       )
+     *
+     * )
+     */
     public function destroy(Device $device)
     {
         $device->delete();
@@ -117,9 +248,42 @@ class DeviceController extends Controller
      * Get Maintenance info of a Device
      *
      */
+    /**
+     * @OA\Get(
+     *      path="/devices/{deviceId}/maintenances",
+     *      tags={"Devices"},
+     *      summary="Get maintenances based on device",
+     *      description="Returns maintenances data based on device",
+     *     @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *    @OA\Parameter(
+     *          name="perPage",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *     @OA\Parameter(
+     *          name="page",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns maintenances data based on device",
+     *        @OA\JsonContent( type="array",
+     *         @OA\Items(ref=""))
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
+     */
     public function getMaintenances($device, Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new MaintenanceResources(Maintenance::where('device_id',$device)->with(['user','images'])->paginate($perPage));
+        return new MaintenanceResources(Maintenance::where('device_id', $device)->with(['user', 'images'])->paginate($perPage));
     }
 }

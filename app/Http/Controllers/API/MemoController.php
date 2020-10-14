@@ -14,10 +14,32 @@ class MemoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *     path="/memos",
+     *     tags={"Memos"},
+     *     summary="Get list of memos",
+     *     @OA\Parameter(
+     *          name="perPage",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *     @OA\Parameter(
+     *          name="page",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *     @OA\Response(response="200",
+     *      description="returns list of memos with pagination .",
+     *      @OA\JsonContent( type="array",
+     *         @OA\Items(ref=""))),
+     *     @OA\Response(response="403", description="Access denied!.")
+     * )
+     */
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new MemoResource(Memo::with(['user','images','maintenance'])->paginate($perPage));
+        return new MemoResource(Memo::with(['user', 'images', 'maintenance'])->paginate($perPage));
     }
 
 
@@ -26,6 +48,35 @@ class MemoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Post(
+     *      path="/memos",
+     *      tags={"Memos"},
+     *      summary="Store a new memo",
+     *      description="Returns memo data",
+     *     @OA\RequestBody(
+     *       required=true,
+     *       description="Pass user credentials",
+     *       @OA\JsonContent(
+     *       required={"name","maintenance_id"},
+     *       @OA\Property(property="name", type="string", example="maintenece"),
+     *       @OA\Property(property="description", type="string", example="camera repair"),
+     *       @OA\Property(property="maintenance_id", type="int",  example="1"),
+     *       @OA\Property(property="imageUrls", type="string",
+     *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *    ),
+     * ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns stored memo data",
+     *        @OA\JsonContent(ref="")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -56,9 +107,29 @@ class MemoController extends Controller
      * @param  \App\Models\Memo  $memo
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *      path="/memos/{id}",
+     *      tags={"Memos"},
+     *      summary="Get memo By Id",
+     *      description="Get Individual memo data according to memo-id",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns memo data",
+     *       @OA\JsonContent(ref="")),
+     *       )
+     *
+     * )
+     */
     public function show(Memo $memo)
     {
-        $maintenance = new MemoResource($memo->load(['user', 'images','maintenance']));
+        $maintenance = new MemoResource($memo->load(['user', 'images', 'maintenance']));
 
         return $maintenance;
     }
@@ -70,10 +141,42 @@ class MemoController extends Controller
      * @param  \App\Models\Memo  $memo
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Put(
+     *      path="/memos/{id}",
+     *      tags={"Memos"},
+     *      summary="Update memo",
+     *      description="updates memo data",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *    @OA\RequestBody(
+     *       required=true,
+     *       description="Pass user credentials",
+     *       @OA\JsonContent(
+     *       required={"name","maintenance_id"},
+     *       @OA\Property(property="name", type="string", example="maintenece"),
+     *       @OA\Property(property="description", type="string", example="camera repair"),
+     *       @OA\Property(property="maintenance_id", type="int",  example="1"),
+     *       @OA\Property(property="imageUrls", type="string",
+     *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *    ),
+     * ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns updated memos data",
+     *        @OA\JsonContent(ref="")
+     *       )
+     *
+     * )
+     */
     public function update(Request $request, Memo $memo)
     {
-         //validating
-         $validatedData = $request->validate([
+        //validating
+        $validatedData = $request->validate([
             'name' => 'max:255',
             'description' => 'nullable|max:255',
             'maintenance_id' => 'exists:App\Models\Maintenance,id',
@@ -101,6 +204,36 @@ class MemoController extends Controller
      *
      * @param  \App\Models\Memo  $memo
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Delete(
+     *      path="/memos/{id}",
+     *      tags={"Memos"},
+     *      summary="Delete memo",
+     *      description="delete memo data",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *   @OA\Parameter(
+     *          name="perPage",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *    @OA\Parameter(
+     *          name="page",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=201,
+     *          description="Success",
+     *       )
+     *
+     * )
      */
     public function destroy(Memo $memo)
     {
