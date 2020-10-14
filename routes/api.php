@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ImageController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\CustomerController;

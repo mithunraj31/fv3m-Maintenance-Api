@@ -19,8 +19,13 @@ class DeviceImage extends Model
         'device_id'
     ];
 
+    protected $appends = ['full_url'];
+
     public function device()
     {
         return $this->belongsTo('App\Models\Device','device_id');
+    }
+    public function getFullUrlAttribute() {
+        return env('AWS_S3_URL').$this->url;
     }
 }

@@ -19,6 +19,6 @@ class ImageController extends Controller
         $image  =  $request-> file('image');
         $path  =  Storage::disk( 's3' )->put('images' ,  $image ,  'public');
 
-        return response(['imageUrl'=>$path], 201);
+        return response(['imageUrl'=>$path,'uri'=>env('AWS_S3_URL').$path,'prefix'=>env('AWS_S3_URL')], 201);
     }
 }
