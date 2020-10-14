@@ -76,4 +76,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::middleware(['scope:admin,user,read-only'])->get('/memos', [MemoController::class, 'show']);
     Route::middleware(['scope:admin,user'])->put('/memos', [MemoController::class, 'update']);
     Route::middleware(['scope:admin'])->delete('/memos', [MemoController::class, 'destroy']);
+
+    // Image Routes
+    Route::middleware(['scope:admin,user'])->post('/images', [MemoController::class, 'store']);
 });
