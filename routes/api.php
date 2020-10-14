@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\ImageController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeviceController;
-use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\MemoController;
 use Illuminate\Support\Facades\Route;
@@ -78,5 +78,5 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::middleware(['scope:admin'])->delete('/memos', [MemoController::class, 'destroy']);
 
     // Image Routes
-    Route::middleware(['scope:admin,user'])->post('/images', [MemoController::class, 'store']);
+    Route::middleware(['scope:admin,user'])->post('/images', [ImageController::class, 'store']);
 });
