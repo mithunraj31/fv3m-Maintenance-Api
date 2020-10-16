@@ -17,7 +17,7 @@
             "description": "Staging API Server"
         },
         {
-            "url": "http://fpv3m.jp:2200/api/v1",
+            "url": "http://fv3m.jp:8000/api/v1",
             "description": "Local API Server"
         }
     ],
@@ -998,10 +998,6 @@
                                     "maintenance_id"
                                 ],
                                 "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "maintenece"
-                                    },
                                     "description": {
                                         "type": "string",
                                         "example": "camera repair"

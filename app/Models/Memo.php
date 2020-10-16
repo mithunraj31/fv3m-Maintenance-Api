@@ -17,7 +17,8 @@ class Memo extends Model
      */
     protected $fillable = [
         'url',
-        'maintenance_id'
+        'maintenance_id',
+        'description',
     ];
 
     public function user()

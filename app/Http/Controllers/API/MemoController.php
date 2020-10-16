@@ -62,7 +62,6 @@ class MemoController extends Controller
      *       description="Pass user credentials",
      *       @OA\JsonContent(
      *       required={"name","maintenance_id"},
-     *       @OA\Property(property="name", type="string", example="maintenece"),
      *       @OA\Property(property="description", type="string", example="camera repair"),
      *       @OA\Property(property="maintenance_id", type="int",  example="1"),
      *       @OA\Property(property="imageUrls", type="string",
@@ -84,7 +83,6 @@ class MemoController extends Controller
     {
         //validating
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
             'description' => 'nullable|max:255',
             'maintenance_id' => 'required|exists:App\Models\Maintenance,id',
             'imageUrls.*' => 'url'
@@ -94,12 +92,13 @@ class MemoController extends Controller
         $memo->user_id = Auth::user()->id;
         $memo->save();
 
-        $urls = [];
-        foreach ($request->imageUrls as $url) {
-            $urls[] = ['url' => $url];
+        if ($request->imageUrls) {
+            $urls = [];
+            foreach ($request->imageUrls as $url) {
+                $urls[] = ['url' => $url];
+            }
+            $memo->images()->createMany($urls);
         }
-        $memo->images()->createMany($urls);
-
         return response($memo->load('images'), 201);
     }
 
