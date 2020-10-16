@@ -71,7 +71,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/customers": {
@@ -621,6 +626,62 @@
                                     "items": {
                                         "$ref": ""
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/images": {
+            "post": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Store new image",
+                "description": "Returns images data",
+                "operationId": "App\\Http\\Controllers\\API\\ImageController::store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "Item image",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "201": {
+                        "description": "returns stored image data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
                                 }
                             }
                         }
@@ -1336,7 +1397,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
