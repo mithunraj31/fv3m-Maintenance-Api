@@ -5,7 +5,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
+                'title' => 'FV3M API',
             ],
 
             'routes' => [
@@ -95,7 +95,14 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
+                'bearer' => [ // Unique name of security
+                    'type' => 'apiKey', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+                    'description' => 'A short description for security scheme',
+                    'name' => 'Authorization', // The name of the header or query parameter to be used.
+                    'in' => 'header', // The location of the API key. Valid values are "query" or "header".
+                ],
                 /*
+
                  * Examples of Security schemes
                 */
                 /*
@@ -147,8 +154,7 @@ return [
                     ],
 
                     'passport' => []
-                    */
-                ],
+                    */],
             ],
         ],
 
@@ -191,8 +197,9 @@ return [
         /*
          * Uncomment to add constants which can be used in annotations
          */
-        // 'constants' => [
-        // 'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
-        // ],
+        'constants' => [
+            'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://fv3m.jp:8000/api/v1'),
+            'L5_SWAGGER_STAGING_HOST' => env('L5_SWAGGER_STAGING_HOST', 'http://3.112.130.195:8080/api/v1')
+        ],
     ],
 ];

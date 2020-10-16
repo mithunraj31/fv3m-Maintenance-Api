@@ -1,21 +1,1279 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "My First API",
+        "title": "FV3M",
+        "contact": {
+            "email": "mbel002@mbel.co.jp"
+        },
+        "license": {
+            "name": "MBEL",
+            "url": "http://www.mbel.co.jp/"
+        },
         "version": "0.1"
     },
+    "servers": [
+        {
+            "url": "http://fv3m.jp:8000/api/v1",
+            "description": "Local API Server"
+        },
+        {
+            "url": "http://3.112.130.195:8080/api/v1",
+            "description": "Staging API Server"
+        }
+    ],
     "paths": {
-        "/users": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Aunthenticate user",
+                "description": "Returns token",
+                "operationId": "App\\Http\\Controllers\\API\\AuthController::login",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "lasitha@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns stored user data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                }
+            }
+        },
+        "/customers": {
             "get": {
-                "operationId": "App\\Http\\Controllers\\API\\UserController::index",
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get list of customers",
+                "operationId": "App\\Http\\Controllers\\CustomerController::index",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "path",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": false
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Display a listing of projects."
+                        "description": "returns list of customers with pagination .",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Store new customer",
+                "description": "Returns customer data",
+                "operationId": "App\\Http\\Controllers\\CustomerController::store",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "mithun"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "new customer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns stored customer data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                }
+            }
+        },
+        "/customers/{id}": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get customer By Id",
+                "description": "Get Individual customer data according to customer-id",
+                "operationId": "App\\Http\\Controllers\\CustomerController::show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "returns customer data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Update customer",
+                "description": "updates customer data",
+                "operationId": "App\\Http\\Controllers\\CustomerController::update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "mithun"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "new customer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns updated customer data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Delete customer",
+                "description": "delete customer data",
+                "operationId": "App\\Http\\Controllers\\CustomerController::destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "  /customers/{customerId}/devices": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get devices based on customer",
+                "description": "Returns devices data based on customer",
+                "operationId": "App\\Http\\Controllers\\CustomerController::getDevices",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "path",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "returns based on customers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                }
+            }
+        },
+        "/devices": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Get list of devices",
+                "operationId": "App\\Http\\Controllers\\DeviceController::index",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "path",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "returns list of devices with pagination .",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Store new device",
+                "description": "Returns device data",
+                "operationId": "App\\Http\\Controllers\\DeviceController::store",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "forklift"
+                                    },
+                                    "lat": {
+                                        "type": "string",
+                                        "example": "35.26"
+                                    },
+                                    "lng": {
+                                        "type": "string",
+                                        "example": "176.2"
+                                    },
+                                    "customer_id": {
+                                        "type": "int",
+                                        "example": "1"
+                                    },
+                                    "status_id": {
+                                        "type": "int",
+                                        "example": "1"
+                                    },
+                                    "imageUrls": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns stored device data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                }
+            }
+        },
+        "/devices/{id}": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Get device By Id",
+                "description": "Get Individual device data according to device-id",
+                "operationId": "App\\Http\\Controllers\\DeviceController::show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "returns device data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Update device",
+                "description": "updates device data",
+                "operationId": "App\\Http\\Controllers\\DeviceController::update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "forklift"
+                                    },
+                                    "lat": {
+                                        "type": "string",
+                                        "example": "35.26"
+                                    },
+                                    "lng": {
+                                        "type": "string",
+                                        "example": "176.2"
+                                    },
+                                    "customer_id": {
+                                        "type": "int",
+                                        "example": "1"
+                                    },
+                                    "status_id": {
+                                        "type": "int",
+                                        "example": "1"
+                                    },
+                                    "imageUrls": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns updated devices data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Delete device",
+                "description": "delete device data",
+                "operationId": "App\\Http\\Controllers\\DeviceController::destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/devices/{deviceId}/maintenances": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Get maintenances based on device",
+                "description": "Returns maintenances data based on device",
+                "operationId": "App\\Http\\Controllers\\DeviceController::getMaintenances",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "path",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "returns maintenances data based on device",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                }
+            }
+        },
+        "/maintenances": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Get list of maintenances",
+                "operationId": "App\\Http\\Controllers\\MaintenanceController::index",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "path",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "returns list of maintenances with pagination .",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Store new maintenance",
+                "description": "Returns maintenance data",
+                "operationId": "App\\Http\\Controllers\\MaintenanceController::store",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "device_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "maintenece"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "camera repair"
+                                    },
+                                    "lat": {
+                                        "type": "string",
+                                        "example": "35.26"
+                                    },
+                                    "lng": {
+                                        "type": "string",
+                                        "example": "176.2"
+                                    },
+                                    "device_id": {
+                                        "type": "int",
+                                        "example": "1"
+                                    },
+                                    "imageUrls": {
+                                        "type": "string",
+                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns stored maintenance data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                }
+            }
+        },
+        "/maintenances/{id}": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Get maintenance By Id",
+                "description": "Get Individual maintenance data according to maintenance-id",
+                "operationId": "App\\Http\\Controllers\\MaintenanceController::show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "returns maintenance data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Update maintenance",
+                "description": "updates maintenance data",
+                "operationId": "App\\Http\\Controllers\\MaintenanceController::edit",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "device_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "maintenece"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "camera repair"
+                                    },
+                                    "lat": {
+                                        "type": "string",
+                                        "example": "35.26"
+                                    },
+                                    "lng": {
+                                        "type": "string",
+                                        "example": "176.2"
+                                    },
+                                    "device_id": {
+                                        "type": "int",
+                                        "example": "1"
+                                    },
+                                    "imageUrls": {
+                                        "type": "string",
+                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns updated maintenance data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Delete maintenance",
+                "description": "delete maintenance data",
+                "operationId": "App\\Http\\Controllers\\MaintenanceController::destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/maintenances/{maintenance}/memos": {
+            "get": {
+                "tags": [
+                    "Maintenances"
+                ],
+                "summary": "Get memos based on maintenance",
+                "description": "Returns memos data based on maintenance",
+                "operationId": "App\\Http\\Controllers\\MaintenanceController::getMemos",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "path",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "returns memos data based on maintenance",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                }
+            }
+        },
+        "/memos": {
+            "get": {
+                "tags": [
+                    "Memos"
+                ],
+                "summary": "Get list of memos",
+                "operationId": "App\\Http\\Controllers\\MemoController::index",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "path",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "returns list of memos with pagination .",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Memos"
+                ],
+                "summary": "Store a new memo",
+                "description": "Returns memo data",
+                "operationId": "App\\Http\\Controllers\\MemoController::store",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "maintenance_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "maintenece"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "camera repair"
+                                    },
+                                    "maintenance_id": {
+                                        "type": "int",
+                                        "example": "1"
+                                    },
+                                    "imageUrls": {
+                                        "type": "string",
+                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns stored memo data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                }
+            }
+        },
+        "/memos/{id}": {
+            "get": {
+                "tags": [
+                    "Memos"
+                ],
+                "summary": "Get memo By Id",
+                "description": "Get Individual memo data according to memo-id",
+                "operationId": "App\\Http\\Controllers\\MemoController::show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "returns memo data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Memos"
+                ],
+                "summary": "Update memo",
+                "description": "updates memo data",
+                "operationId": "App\\Http\\Controllers\\MemoController::update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "maintenance_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "maintenece"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "camera repair"
+                                    },
+                                    "maintenance_id": {
+                                        "type": "int",
+                                        "example": "1"
+                                    },
+                                    "imageUrls": {
+                                        "type": "string",
+                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns updated memos data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Memos"
+                ],
+                "summary": "Delete memo",
+                "description": "delete memo data",
+                "operationId": "App\\Http\\Controllers\\MemoController::destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "path",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get list of users",
+                "operationId": "App\\Http\\Controllers\\API\\UserController::index",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "path",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "returns list of users with pagination .",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Store new user",
+                "description": "Returns user data",
+                "operationId": "App\\Http\\Controllers\\API\\UserController::store",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "role",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "ponpeera"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "mbel001@mbel.co.jp"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    },
+                                    "imageUrls": {
+                                        "type": "string",
+                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns stored user data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user By Id",
+                "description": "Get Individual user data according to user-id",
+                "operationId": "App\\Http\\Controllers\\API\\UserController::show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "returns user data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user",
+                "description": "updates user data",
+                "operationId": "App\\Http\\Controllers\\API\\UserController::update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "role"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "ponpeera"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "mbel001@mbel.co.jp"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    },
+                                    "imageUrls": {
+                                        "type": "string",
+                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "returns updated user data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 }
             }
         }
     },
+    "components": {
+        "responses": {
+            "403": {
+                "description": "Access denied!"
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "description": "A short description for security scheme",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "FV3M",
+            "description": "API Endpoints of FV3M"
+        }
+    ],
     "security": [
         []
     ]

@@ -18,9 +18,32 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request):CustomerResources
+    /**
+     * @OA\Get(
+     *     path="/customers",
+     *     tags={"Customers"},
+     *     summary="Get list of customers",
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          name="perPage",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *  @OA\Parameter(
+     *          name="page",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *     @OA\Response(response="200",
+     *      description="returns list of customers with pagination .",
+     *      @OA\JsonContent( type="array",
+     *         @OA\Items(ref=""))),
+     *     @OA\Response(response="403", description="Access denied!.")
+     * )
+     */
+    public function index(Request $request): CustomerResources
     {
-        $perPage = $request->query('perPage')?(int)$request->query('perPage'):15;
+        $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
         return new CustomerResources(Customer::with('user')->paginate($perPage));
     }
 
@@ -30,6 +53,32 @@ class CustomerController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Post(
+     *      path="/customers",
+     *      tags={"Customers"},
+     *      summary="Store new customer",
+     *      description="Returns customer data",
+     *      @OA\RequestBody(
+     *       required=true,
+     *       description="Pass user credentials",
+     *       @OA\JsonContent(
+     *       required={"name"},
+     *       @OA\Property(property="email", type="string", example="mithun"),
+     *       @OA\Property(property="description", type="string",  example="new customer"),
+     *    ),
+     * ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns stored customer data",
+     *        @OA\JsonContent(ref="")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -53,6 +102,26 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *      path="/customers/{id}",
+     *      tags={"Customers"},
+     *      summary="Get customer By Id",
+     *      description="Get Individual customer data according to customer-id",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns customer data",
+     *       @OA\JsonContent(ref="")),
+     *       )
+     *
+     * )
+     */
     public function show(Customer $customer)
     {
         $customer = new CustomerResource($customer->load(['user']));
@@ -65,6 +134,35 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Put(
+     *      path="/customers/{id}",
+     *      tags={"Customers"},
+     *      summary="Update customer",
+     *      description="updates customer data",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *      @OA\RequestBody(
+     *       required=true,
+     *       description="Pass user credentials",
+     *       @OA\JsonContent(
+     *       required={"name"},
+     *       @OA\Property(property="email", type="string", example="mithun"),
+     *       @OA\Property(property="description", type="string",  example="new customer"),
+     *    ),
+     * ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns updated customer data",
+     *        @OA\JsonContent(ref="")
+     *       )
+     *
+     * )
      */
     public function update(Request $request, Customer $customer)
     {
@@ -87,6 +185,26 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Delete(
+     *      path="/customers/{id}",
+     *      tags={"Customers"},
+     *      summary="Delete customer",
+     *      description="delete customer data",
+     *
+     *   @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *       )
+     *
+     * )
+     */
     public function destroy(Customer $customer)
     {
         $customer->delete();
@@ -98,9 +216,42 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *      path="  /customers/{customerId}/devices",
+     *      tags={"Customers"},
+     *      summary="Get devices based on customer",
+     *      description="Returns devices data based on customer",
+     *     @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *   @OA\Parameter(
+     *          name="perPage",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *  @OA\Parameter(
+     *          name="page",
+     *          required=false,
+     *          in="path",
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="returns based on customers",
+     *        @OA\JsonContent( type="array",
+     *         @OA\Items(ref=""))
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
+     */
     public function getDevices($customer, Request $request)
-    {   $perPage = $request->query('perPage')?(int)$request->query('perPage'):15;
-        return new DeviceResources(Device::where('customer_id',$customer)->paginate($perPage));
-
+    {
+        $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
+        return new DeviceResources(Device::where('customer_id', $customer)->paginate($perPage));
     }
 }
