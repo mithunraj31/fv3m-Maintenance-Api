@@ -288,6 +288,10 @@ class MaintenanceController extends Controller
     public function getMemos($maintenance, Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new MemoResources(Memo::where('maintenance_id', $maintenance)->with(['user', 'images'])->paginate($perPage));
+        $order = $request->query('order');
+        $order = $order? ($order=='oldest'? 'asc':'desc'):'desc';
+
+        return new MemoResources(Memo::where('maintenance_id', $maintenance)->orderBy('created_at',$order)
+        ->with(['user', 'images'])->paginate($perPage));
     }
 }
