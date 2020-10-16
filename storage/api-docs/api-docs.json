@@ -44,12 +44,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "lasitha@gmail.com"
+                                        "example": "mbel003@mbel.co.jp"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "password"
+                                        "example": "123456"
                                     }
                                 },
                                 "type": "object"
@@ -89,12 +89,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -175,7 +175,7 @@
                 ]
             }
         },
-        "/customers/{id}": {
+        "/customers/{customerId}": {
             "get": {
                 "tags": [
                     "Customers"
@@ -185,7 +185,7 @@
                 "operationId": "App\\Http\\Controllers\\CustomerController::show",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customerId",
                         "in": "path",
                         "required": true
                     }
@@ -217,7 +217,7 @@
                 "operationId": "App\\Http\\Controllers\\CustomerController::update",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customerId",
                         "in": "path",
                         "required": true
                     }
@@ -273,7 +273,7 @@
                 "operationId": "App\\Http\\Controllers\\CustomerController::destroy",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customerId",
                         "in": "path",
                         "required": true
                     }
@@ -306,12 +306,12 @@
                     },
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -350,12 +350,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -456,7 +456,7 @@
                 ]
             }
         },
-        "/devices/{id}": {
+        "/devices/{deviceId}": {
             "get": {
                 "tags": [
                     "Devices"
@@ -466,7 +466,7 @@
                 "operationId": "App\\Http\\Controllers\\DeviceController::show",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "deviceId",
                         "in": "path",
                         "required": true
                     }
@@ -498,7 +498,7 @@
                 "operationId": "App\\Http\\Controllers\\DeviceController::update",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "deviceId",
                         "in": "path",
                         "required": true
                     }
@@ -574,7 +574,7 @@
                 "operationId": "App\\Http\\Controllers\\DeviceController::destroy",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "deviceId",
                         "in": "path",
                         "required": true
                     }
@@ -607,17 +607,17 @@
                     },
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "order",
-                        "in": "path",
+                        "in": "query",
                         "description": "order by latest or oldest",
                         "required": false
                     }
@@ -703,12 +703,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -806,7 +806,7 @@
                 ]
             }
         },
-        "/maintenances/{id}": {
+        "/maintenances/{maintenanceId}": {
             "get": {
                 "tags": [
                     "Maintenances"
@@ -816,7 +816,7 @@
                 "operationId": "App\\Http\\Controllers\\MaintenanceController::show",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "maintenanceId",
                         "in": "path",
                         "required": true
                     }
@@ -848,7 +848,7 @@
                 "operationId": "App\\Http\\Controllers\\MaintenanceController::edit",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "maintenanceId",
                         "in": "path",
                         "required": true
                     }
@@ -921,7 +921,7 @@
                 "operationId": "App\\Http\\Controllers\\MaintenanceController::destroy",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "maintenanceId",
                         "in": "path",
                         "required": true
                     }
@@ -954,17 +954,17 @@
                     },
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "order",
-                        "in": "path",
+                        "in": "query",
                         "description": "order by latest or oldest",
                         "required": false
                     }
@@ -1004,12 +1004,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -1095,7 +1095,7 @@
                 ]
             }
         },
-        "/memos/{id}": {
+        "/memos/{memoId}": {
             "get": {
                 "tags": [
                     "Memos"
@@ -1105,7 +1105,7 @@
                 "operationId": "App\\Http\\Controllers\\MemoController::show",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "memoId",
                         "in": "path",
                         "required": true
                     }
@@ -1128,6 +1128,33 @@
                     }
                 ]
             },
+            "delete": {
+                "tags": [
+                    "Memos"
+                ],
+                "summary": "Delete memo",
+                "description": "delete memo data",
+                "operationId": "App\\Http\\Controllers\\MemoController::destroy",
+                "parameters": [
+                    {
+                        "name": "memoId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/memos/{id}": {
             "put": {
                 "tags": [
                     "Memos"
@@ -1192,41 +1219,6 @@
                         "bearer": []
                     }
                 ]
-            },
-            "delete": {
-                "tags": [
-                    "Memos"
-                ],
-                "summary": "Delete memo",
-                "description": "delete memo data",
-                "operationId": "App\\Http\\Controllers\\MemoController::destroy",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "name": "perPage",
-                        "in": "path",
-                        "required": false
-                    },
-                    {
-                        "name": "page",
-                        "in": "path",
-                        "required": false
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Success"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
             }
         },
         "/statuses": {
@@ -1271,7 +1263,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -1401,7 +1398,9 @@
                         "bearer": []
                     }
                 ]
-            },
+            }
+        },
+        "/users/{userId}": {
             "put": {
                 "tags": [
                     "Users"
@@ -1411,7 +1410,7 @@
                 "operationId": "App\\Http\\Controllers\\API\\UserController::update",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "required": true
                     }

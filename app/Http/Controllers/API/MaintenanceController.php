@@ -26,12 +26,12 @@ class MaintenanceController extends Controller
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *      @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Response(response="200",
      *      description="returns list of maintenances with pagination .",
@@ -118,14 +118,14 @@ class MaintenanceController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/maintenances/{id}",
+     *      path="/maintenances/{maintenanceId}",
      *      tags={"Maintenances"},
      *      summary="Get maintenance By Id",
      *   security={ {"bearer": {} }},
      *      description="Get Individual maintenance data according to maintenance-id",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="maintenanceId",
      *          required=true,
      *          in="path",
      *      ),
@@ -152,14 +152,14 @@ class MaintenanceController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/maintenances/{id}",
+     *      path="/maintenances/{maintenanceId}",
      *      tags={"Maintenances"},
      *      summary="Update maintenance",
      *   security={ {"bearer": {} }},
      *      description="updates maintenance data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="maintenanceId",
      *          required=true,
      *          in="path",
      *      ),
@@ -222,14 +222,14 @@ class MaintenanceController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/maintenances/{id}",
+     *      path="/maintenances/{maintenanceId}",
      *      tags={"Maintenances"},
      *      summary="Delete maintenance",
      *   security={ {"bearer": {} }},
      *      description="delete maintenance data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="maintenanceId",
      *          required=true,
      *          in="path",
      *      ),
@@ -265,17 +265,17 @@ class MaintenanceController extends Controller
      *    @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Parameter(
      *          name="order",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *          description="order by latest or oldest"
      *      ),
      *      @OA\Response(
