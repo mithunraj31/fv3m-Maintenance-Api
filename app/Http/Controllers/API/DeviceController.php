@@ -275,6 +275,12 @@ class DeviceController extends Controller
      *          required=false,
      *          in="path",
      *      ),
+     *     @OA\Parameter(
+     *          name="order",
+     *          required=false,
+     *          in="path",
+     *          description="order by latest or oldest"
+     *      ),
      *      @OA\Response(
      *          response=201,
      *          description="returns maintenances data based on device",
@@ -290,6 +296,10 @@ class DeviceController extends Controller
     public function getMaintenances($device, Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new MaintenanceResources(Maintenance::where('device_id', $device)->with(['user', 'images'])->paginate($perPage));
+        $order = $request->query('order');
+        $order = $order? ($order=='oldest'? 'asc':'desc'):'desc';
+
+        return new MaintenanceResources(Maintenance::where('device_id', $device)->orderBy('created_at',$order)
+        ->with(['user', 'images'])->paginate($perPage));
     }
 }

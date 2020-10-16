@@ -17,7 +17,7 @@
             "description": "Staging API Server"
         },
         {
-            "url": "http://fv3m.jp:8000/api/v1",
+            "url": "http://fpv3m.jp:2200/api/v1",
             "description": "Local API Server"
         }
     ],
@@ -608,6 +608,12 @@
                     {
                         "name": "page",
                         "in": "path",
+                        "required": false
+                    },
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "description": "order by latest or oldest",
                         "required": false
                     }
                 ],
@@ -1336,7 +1342,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
