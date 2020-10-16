@@ -39,7 +39,7 @@ class UserController extends Controller
      *      path="/users/{id}",
      *      tags={"Users"},
      *      summary="Get user By Id",
-     *
+     *security={ {"bearer": {} }},
      *      description="Get Individual user data according to user-id",
      *
      *   @OA\Parameter(
