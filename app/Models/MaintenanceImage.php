@@ -18,7 +18,11 @@ class MaintenanceImage extends Model
         'url',
         'maintenance_id'
     ];
+    protected $appends = ['full_url'];
 
+    public function getFullUrlAttribute() {
+        return env('AWS_S3_URL').$this->url;
+    }
     public function maintenance()
     {
         return $this->belongsTo('App\Models\Maintenance','maintenance_id');
