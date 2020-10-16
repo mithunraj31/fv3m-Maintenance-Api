@@ -22,6 +22,7 @@ class MaintenanceController extends Controller
      *     path="/maintenances",
      *     tags={"Maintenances"},
      *     summary="Get list of maintenances",
+     *   security={ {"bearer": {} }},
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
@@ -56,6 +57,7 @@ class MaintenanceController extends Controller
      *      path="/maintenances",
      *      tags={"Maintenances"},
      *      summary="Store new maintenance",
+     *   security={ {"bearer": {} }},
      *      description="Returns maintenance data",
      *      @OA\RequestBody(
      *       required=true,
@@ -119,6 +121,7 @@ class MaintenanceController extends Controller
      *      path="/maintenances/{id}",
      *      tags={"Maintenances"},
      *      summary="Get maintenance By Id",
+     *   security={ {"bearer": {} }},
      *      description="Get Individual maintenance data according to maintenance-id",
      *
      *   @OA\Parameter(
@@ -152,6 +155,7 @@ class MaintenanceController extends Controller
      *      path="/maintenances/{id}",
      *      tags={"Maintenances"},
      *      summary="Update maintenance",
+     *   security={ {"bearer": {} }},
      *      description="updates maintenance data",
      *
      *   @OA\Parameter(
@@ -221,6 +225,7 @@ class MaintenanceController extends Controller
      *      path="/maintenances/{id}",
      *      tags={"Maintenances"},
      *      summary="Delete maintenance",
+     *   security={ {"bearer": {} }},
      *      description="delete maintenance data",
      *
      *   @OA\Parameter(
@@ -250,6 +255,7 @@ class MaintenanceController extends Controller
      *      path="/maintenances/{maintenance}/memos",
      *      tags={"Maintenances"},
      *      summary="Get memos based on maintenance",
+     *   security={ {"bearer": {} }},
      *      description="Returns memos data based on maintenance",
      *     @OA\Parameter(
      *          name="id",

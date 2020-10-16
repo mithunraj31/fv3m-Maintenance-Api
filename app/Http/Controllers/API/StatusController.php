@@ -18,6 +18,7 @@ class StatusController extends Controller
      *     path="/statuses",
      *     tags={"Status"},
      *     summary="Get list of status",
+     *  security={ {"bearer": {} }},
      *     @OA\Response(response="200",
      *      description="returns list of status",
      *      @OA\JsonContent( type="array",

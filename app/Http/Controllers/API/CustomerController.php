@@ -59,6 +59,7 @@ class CustomerController extends Controller
      *      path="/customers",
      *      tags={"Customers"},
      *      summary="Store new customer",
+     *     security={ {"bearer": {} }},
      *      description="Returns customer data",
      *      @OA\RequestBody(
      *       required=true,
@@ -107,6 +108,7 @@ class CustomerController extends Controller
      *      path="/customers/{id}",
      *      tags={"Customers"},
      *      summary="Get customer By Id",
+     *      security={ {"bearer": {} }},
      *      description="Get Individual customer data according to customer-id",
      *
      *   @OA\Parameter(
@@ -140,6 +142,7 @@ class CustomerController extends Controller
      *      path="/customers/{id}",
      *      tags={"Customers"},
      *      summary="Update customer",
+     *      security={ {"bearer": {} }},
      *      description="updates customer data",
      *
      *   @OA\Parameter(
@@ -190,6 +193,7 @@ class CustomerController extends Controller
      *      path="/customers/{id}",
      *      tags={"Customers"},
      *      summary="Delete customer",
+     *     security={ {"bearer": {} }},
      *      description="delete customer data",
      *
      *   @OA\Parameter(
@@ -221,6 +225,7 @@ class CustomerController extends Controller
      *      path="  /customers/{customerId}/devices",
      *      tags={"Customers"},
      *      summary="Get devices based on customer",
+     *     security={ {"bearer": {} }},
      *      description="Returns devices data based on customer",
      *     @OA\Parameter(
      *          name="id",

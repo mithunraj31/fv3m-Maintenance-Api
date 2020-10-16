@@ -51,6 +51,7 @@ class StatusController extends Controller
      *      path="/status",
      *      tags={"Status"},
      *      summary="Store new status",
+       security={ {"bearer": {} }},
      *      description="Returns status data",
      *      @OA\RequestBody(
      *          required=true,
@@ -83,6 +84,7 @@ class StatusController extends Controller
      *      path="/status/{id}",
      *      tags={"Status"},
      *      summary="Get status By Id",
+       security={ {"bearer": {} }},
      *      description="Get Individual status data according to status-id",
      *
      *   @OA\Parameter(

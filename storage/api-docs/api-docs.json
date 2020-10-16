@@ -13,12 +13,12 @@
     },
     "servers": [
         {
-            "url": "http://fpv3m.jp:2200/api/v1",
-            "description": "Local API Server"
-        },
-        {
             "url": "http://3.112.130.195:8080/api/v1",
             "description": "Staging API Server"
+        },
+        {
+            "url": "http://fv3m.jp:8000/api/v1",
+            "description": "Local API Server"
         }
     ],
     "paths": {
@@ -162,7 +162,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/customers/{id}": {
@@ -191,7 +196,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -242,7 +252,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -262,7 +277,12 @@
                     "200": {
                         "description": "Success"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "  /customers/{customerId}/devices": {
@@ -307,7 +327,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/devices": {
@@ -346,7 +371,12 @@
                     "403": {
                         "description": "Access denied!."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -413,7 +443,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/devices/{id}": {
@@ -442,7 +477,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -513,7 +553,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -533,7 +578,12 @@
                     "201": {
                         "description": "Success"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/devices/{deviceId}/maintenances": {
@@ -578,7 +628,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/maintenances": {
@@ -617,7 +672,12 @@
                     "403": {
                         "description": "Access denied!."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -681,7 +741,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/maintenances/{id}": {
@@ -710,7 +775,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -778,7 +848,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -798,7 +873,12 @@
                     "201": {
                         "description": "Success"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/maintenances/{maintenance}/memos": {
@@ -843,7 +923,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/memos": {
@@ -882,7 +967,12 @@
                     "403": {
                         "description": "Access denied!."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -938,7 +1028,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/memos/{id}": {
@@ -967,7 +1062,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -1027,7 +1127,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1057,7 +1162,12 @@
                     "201": {
                         "description": "Success"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/statuses": {
@@ -1084,7 +1194,12 @@
                     "403": {
                         "description": "Access denied!."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/users": {
@@ -1118,7 +1233,12 @@
                     "403": {
                         "description": "Access denied!."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1182,7 +1302,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/users/{id}": {
@@ -1276,7 +1401,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         }
     },

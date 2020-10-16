@@ -20,13 +20,13 @@ class Controller extends BaseController
      *      ))
      *
      * @OA\Server(
-     *      url=L5_SWAGGER_CONST_HOST,
-     *      description="Local API Server"
+     *      url=L5_SWAGGER_STAGING_HOST,
+     *      description="Staging API Server"
      * )
      *
      * @OA\Server(
-     *      url=L5_SWAGGER_STAGING_HOST,
-     *      description="Staging API Server"
+     *      url=L5_SWAGGER_CONST_HOST,
+     *      description="Local API Server"
      * )
      *
      *
