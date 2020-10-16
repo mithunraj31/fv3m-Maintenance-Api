@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\MemoController;
+use App\Http\Controllers\StatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -80,4 +81,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
     // Image Routes
     Route::middleware(['scope:admin,user'])->post('/images', [ImageController::class, 'store']);
+
+    // Status Routes
+    Route::middleware(['scope:admin,user,read-only'])->get('/statuses', [StatusController::class, 'index']);
 });
