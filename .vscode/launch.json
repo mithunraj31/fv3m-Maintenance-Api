@@ -9,7 +9,7 @@
             "type": "php",
             "request": "launch",
             "pathMappings": {
-                "/home/vagrant/code/FV3M-API": "${workspaceRoot}"
+                "/home/vagrant/code/fv3m-management-system-fe": "${workspaceRoot}"
             },
             "port": 9000
         },

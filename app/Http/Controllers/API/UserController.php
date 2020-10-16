@@ -16,6 +16,7 @@ class UserController extends Controller
      *     path="/users",
      *     tags={"Users"},
      *     summary="Get list of users",
+     *   security={ {"bearer": {} }},
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
@@ -38,6 +39,7 @@ class UserController extends Controller
      *      path="/users/{id}",
      *      tags={"Users"},
      *      summary="Get user By Id",
+     *
      *      description="Get Individual user data according to user-id",
      *
      *   @OA\Parameter(
@@ -79,6 +81,7 @@ class UserController extends Controller
      *      path="/users",
      *      tags={"Users"},
      *      summary="Store new user",
+     * security={ {"bearer": {} }},
      *      description="Returns user data",
      *      @OA\RequestBody(
      *       required=true,
@@ -127,6 +130,7 @@ class UserController extends Controller
      *      path="/users/{id}",
      *      tags={"Users"},
      *      summary="Update user",
+     * security={ {"bearer": {} }},
      *      description="updates user data",
      *
      *   @OA\Parameter(

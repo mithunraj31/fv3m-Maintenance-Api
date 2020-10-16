@@ -19,6 +19,7 @@ class MemoController extends Controller
      *     path="/memos",
      *     tags={"Memos"},
      *     summary="Get list of memos",
+     *   security={ {"bearer": {} }},
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
@@ -54,6 +55,7 @@ class MemoController extends Controller
      *      path="/memos",
      *      tags={"Memos"},
      *      summary="Store a new memo",
+     *   security={ {"bearer": {} }},
      *      description="Returns memo data",
      *     @OA\RequestBody(
      *       required=true,
@@ -112,6 +114,7 @@ class MemoController extends Controller
      *      path="/memos/{id}",
      *      tags={"Memos"},
      *      summary="Get memo By Id",
+     *   security={ {"bearer": {} }},
      *      description="Get Individual memo data according to memo-id",
      *
      *   @OA\Parameter(
@@ -146,6 +149,7 @@ class MemoController extends Controller
      *      path="/memos/{id}",
      *      tags={"Memos"},
      *      summary="Update memo",
+     *   security={ {"bearer": {} }},
      *      description="updates memo data",
      *
      *   @OA\Parameter(
@@ -210,6 +214,7 @@ class MemoController extends Controller
      *      path="/memos/{id}",
      *      tags={"Memos"},
      *      summary="Delete memo",
+     *   security={ {"bearer": {} }},
      *      description="delete memo data",
      *
      *   @OA\Parameter(

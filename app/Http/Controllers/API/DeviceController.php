@@ -21,6 +21,7 @@ class DeviceController extends Controller
      *     path="/devices",
      *     tags={"Devices"},
      *     summary="Get list of devices",
+     *   security={ {"bearer": {} }},
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
@@ -55,6 +56,7 @@ class DeviceController extends Controller
      *      path="/devices",
      *      tags={"Devices"},
      *      summary="Store new device",
+     *   security={ {"bearer": {} }},
      *      description="Returns device data",
      *     @OA\RequestBody(
      *       required=true,
@@ -119,6 +121,7 @@ class DeviceController extends Controller
      *      path="/devices/{id}",
      *      tags={"Devices"},
      *      summary="Get device By Id",
+     *   security={ {"bearer": {} }},
      *      description="Get Individual device data according to device-id",
      *
      *   @OA\Parameter(
@@ -153,6 +156,7 @@ class DeviceController extends Controller
      *      path="/devices/{id}",
      *      tags={"Devices"},
      *      summary="Update device",
+     *   security={ {"bearer": {} }},
      *      description="updates device data",
      *
      *   @OA\Parameter(
@@ -223,6 +227,7 @@ class DeviceController extends Controller
      *      path="/devices/{id}",
      *      tags={"Devices"},
      *      summary="Delete device",
+     *   security={ {"bearer": {} }},
      *      description="delete device data",
      *
      *   @OA\Parameter(
@@ -253,6 +258,7 @@ class DeviceController extends Controller
      *      path="/devices/{deviceId}/maintenances",
      *      tags={"Devices"},
      *      summary="Get maintenances based on device",
+     *   security={ {"bearer": {} }},
      *      description="Returns maintenances data based on device",
      *     @OA\Parameter(
      *          name="id",
