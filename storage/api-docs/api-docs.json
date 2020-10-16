@@ -614,6 +614,12 @@
                         "name": "page",
                         "in": "path",
                         "required": false
+                    },
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "description": "order by latest or oldest",
+                        "required": false
                     }
                 ],
                 "responses": {
@@ -955,6 +961,12 @@
                         "name": "page",
                         "in": "path",
                         "required": false
+                    },
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "description": "order by latest or oldest",
+                        "required": false
                     }
                 ],
                 "responses": {
@@ -1043,10 +1055,6 @@
                                     "maintenance_id"
                                 ],
                                 "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "maintenece"
-                                    },
                                     "description": {
                                         "type": "string",
                                         "example": "camera repair"
