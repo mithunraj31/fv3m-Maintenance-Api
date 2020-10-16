@@ -13,7 +13,7 @@
     },
     "servers": [
         {
-            "url": "http://fpv3m.jp:2200/api/v1",
+            "url": "http://fv3m.jp:8000/api/v1",
             "description": "Local API Server"
         },
         {
@@ -1194,7 +1194,12 @@
                     "403": {
                         "description": "Access denied!."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/users": {
