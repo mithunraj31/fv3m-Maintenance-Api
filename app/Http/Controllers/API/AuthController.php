@@ -14,6 +14,7 @@ class AuthController extends Controller
      *      path="/login",
      *      tags={"Login"},
      *      summary="Aunthenticate user",
+     * security={ {"bearer": {} }},
      *      description="Returns token",
      *      @OA\RequestBody(
      *       required=true,

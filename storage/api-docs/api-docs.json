@@ -71,7 +71,12 @@
                     "403": {
                         "description": "Access denied!"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/customers": {
@@ -295,7 +300,7 @@
                 "operationId": "App\\Http\\Controllers\\CustomerController::getDevices",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customerId",
                         "in": "path",
                         "required": true
                     },
@@ -596,7 +601,7 @@
                 "operationId": "App\\Http\\Controllers\\DeviceController::getMaintenances",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "deviceId",
                         "in": "path",
                         "required": true
                     },
@@ -629,6 +634,52 @@
                                     }
                                 }
                             }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/images": {
+            "post": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Store new image",
+                "description": "Returns images data",
+                "operationId": "App\\Http\\Controllers\\API\\ImageController::store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "Item image",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Image Url received",
+                        "content": {
+                            "application/json": {}
                         }
                     },
                     "403": {
@@ -887,7 +938,7 @@
                 ]
             }
         },
-        "/maintenances/{maintenance}/memos": {
+        "/maintenances/{maintenanceId}/memos": {
             "get": {
                 "tags": [
                     "Maintenances"
@@ -897,7 +948,7 @@
                 "operationId": "App\\Http\\Controllers\\MaintenanceController::getMemos",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "maintenanceId",
                         "in": "path",
                         "required": true
                     },

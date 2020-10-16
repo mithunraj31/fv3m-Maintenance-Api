@@ -42,7 +42,7 @@ class DeviceController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new DeviceResource(Device::with(['user','images'])->paginate($perPage));
+        return new DeviceResource(Device::with(['user', 'images'])->paginate($perPage));
     }
 
     /**
@@ -261,7 +261,7 @@ class DeviceController extends Controller
      *   security={ {"bearer": {} }},
      *      description="Returns maintenances data based on device",
      *     @OA\Parameter(
-     *          name="id",
+     *          name="deviceId",
      *          required=true,
      *          in="path",
      *      ),
