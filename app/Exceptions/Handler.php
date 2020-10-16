@@ -9,6 +9,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Laravel\Passport\Exceptions\InvalidAuthTokenException;
 use Laravel\Passport\Exceptions\MissingScopeException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -74,7 +75,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof AccessDeniedHttpException || $exception instanceof MissingScopeException) {
             return response()->json(['message' => 'Access Denied!'], 403);
         }
-        if ($exception instanceof ModelNotFoundException && $request->wantsJson()) {
+        if (($exception instanceof ModelNotFoundException || $exception instanceof MethodNotAllowedHttpException) && $request->wantsJson()) {
             return response()->json(['message' => 'Resource Not Found!'], 404);
         }
 
