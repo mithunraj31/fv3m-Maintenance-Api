@@ -42,7 +42,7 @@ class DeviceController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new DeviceResource(Device::with('user')->paginate($perPage));
+        return new DeviceResource(Device::with(['user','images'])->paginate($perPage));
     }
 
     /**
@@ -94,7 +94,7 @@ class DeviceController extends Controller
             'lng' => 'nullable|max:30',
             'customer_id' => 'required|exists:App\Models\Customer,id',
             'status_id' => 'required|exists:App\Models\Status,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'string'
         ]);
 
         $device = new Device($validatedData);

@@ -19,7 +19,11 @@ class MemoImage extends Model
         'url',
         'memo_id'
     ];
+    protected $appends = ['full_url'];
 
+    public function getFullUrlAttribute() {
+        return env('AWS_S3_URL').$this->url;
+    }
     public function memo()
     {
         return $this->belongsTo('App\Models\Memo','memo_id');

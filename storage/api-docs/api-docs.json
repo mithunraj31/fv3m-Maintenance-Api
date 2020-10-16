@@ -13,7 +13,7 @@
     },
     "servers": [
         {
-            "url": "http://fv3m.jp:8000/api/v1",
+            "url": "http://fpv3m.jp:2200/api/v1",
             "description": "Local API Server"
         },
         {
@@ -1168,6 +1168,33 @@
                         "bearer": []
                     }
                 ]
+            }
+        },
+        "/statuses": {
+            "get": {
+                "tags": [
+                    "Status"
+                ],
+                "summary": "Get list of status",
+                "operationId": "App\\Http\\Controllers\\StatusController::index",
+                "responses": {
+                    "200": {
+                        "description": "returns list of status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!."
+                    }
+                }
             }
         },
         "/users": {
