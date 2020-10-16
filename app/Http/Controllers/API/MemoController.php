@@ -23,12 +23,12 @@ class MemoController extends Controller
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Response(response="200",
      *      description="returns list of memos with pagination .",
@@ -110,14 +110,14 @@ class MemoController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/memos/{id}",
+     *      path="/memos/{memoId}",
      *      tags={"Memos"},
      *      summary="Get memo By Id",
      *   security={ {"bearer": {} }},
      *      description="Get Individual memo data according to memo-id",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="memoId",
      *          required=true,
      *          in="path",
      *      ),
@@ -210,28 +210,17 @@ class MemoController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/memos/{id}",
+     *      path="/memos/{memoId}",
      *      tags={"Memos"},
      *      summary="Delete memo",
      *   security={ {"bearer": {} }},
      *      description="delete memo data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="memoId",
      *          required=true,
      *          in="path",
      *      ),
-     *   @OA\Parameter(
-     *          name="perPage",
-     *          required=false,
-     *          in="path",
-     *      ),
-     *    @OA\Parameter(
-     *          name="page",
-     *          required=false,
-     *          in="path",
-     *      ),
-     *
      *      @OA\Response(
      *          response=201,
      *          description="Success",

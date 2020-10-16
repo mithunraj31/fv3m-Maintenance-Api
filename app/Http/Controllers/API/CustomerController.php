@@ -27,12 +27,12 @@ class CustomerController extends Controller
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *  @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Response(response="200",
      *      description="returns list of customers with pagination .",
@@ -105,14 +105,14 @@ class CustomerController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/customers/{id}",
+     *      path="/customers/{customerId}",
      *      tags={"Customers"},
      *      summary="Get customer By Id",
      *      security={ {"bearer": {} }},
      *      description="Get Individual customer data according to customer-id",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="customerId",
      *          required=true,
      *          in="path",
      *      ),
@@ -139,14 +139,14 @@ class CustomerController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/customers/{id}",
+     *      path="/customers/{customerId}",
      *      tags={"Customers"},
      *      summary="Update customer",
      *      security={ {"bearer": {} }},
      *      description="updates customer data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="customerId",
      *          required=true,
      *          in="path",
      *      ),
@@ -190,14 +190,14 @@ class CustomerController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/customers/{id}",
+     *      path="/customers/{customerId}",
      *      tags={"Customers"},
      *      summary="Delete customer",
      *     security={ {"bearer": {} }},
      *      description="delete customer data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="customerId",
      *          required=true,
      *          in="path",
      *      ),
@@ -235,12 +235,12 @@ class CustomerController extends Controller
      *   @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *  @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *      @OA\Response(
      *          response=201,

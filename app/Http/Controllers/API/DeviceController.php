@@ -25,12 +25,12 @@ class DeviceController extends Controller
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Response(response="200",
      *      description="returns list of devices with pagination .",
@@ -118,14 +118,14 @@ class DeviceController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/devices/{id}",
+     *      path="/devices/{deviceId}",
      *      tags={"Devices"},
      *      summary="Get device By Id",
      *   security={ {"bearer": {} }},
      *      description="Get Individual device data according to device-id",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="deviceId",
      *          required=true,
      *          in="path",
      *      ),
@@ -153,14 +153,14 @@ class DeviceController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/devices/{id}",
+     *      path="/devices/{deviceId}",
      *      tags={"Devices"},
      *      summary="Update device",
      *   security={ {"bearer": {} }},
      *      description="updates device data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="deviceId",
      *          required=true,
      *          in="path",
      *      ),
@@ -224,14 +224,14 @@ class DeviceController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/devices/{id}",
+     *      path="/devices/{deviceId}",
      *      tags={"Devices"},
      *      summary="Delete device",
      *   security={ {"bearer": {} }},
      *      description="delete device data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="deviceId",
      *          required=true,
      *          in="path",
      *      ),
@@ -268,17 +268,17 @@ class DeviceController extends Controller
      *    @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Parameter(
      *          name="order",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *          description="order by latest or oldest"
      *      ),
      *      @OA\Response(

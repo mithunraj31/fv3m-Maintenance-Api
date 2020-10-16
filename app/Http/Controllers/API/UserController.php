@@ -20,7 +20,12 @@ class UserController extends Controller
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
+     *      ),
+     *     @OA\Parameter(
+     *          name="page",
+     *          required=false,
+     *          in="query",
      *      ),
      *     @OA\Response(response="200",
      *      description="returns list of users with pagination .",
@@ -127,14 +132,14 @@ class UserController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/users/{id}",
+     *      path="/users/{userId}",
      *      tags={"Users"},
      *      summary="Update user",
      * security={ {"bearer": {} }},
      *      description="updates user data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="userId",
      *          required=true,
      *          in="path",
      *      ),
