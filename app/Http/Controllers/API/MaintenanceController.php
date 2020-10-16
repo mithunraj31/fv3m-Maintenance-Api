@@ -252,13 +252,13 @@ class MaintenanceController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/maintenances/{maintenance}/memos",
+     *      path="/maintenances/{maintenanceId}/memos",
      *      tags={"Maintenances"},
      *      summary="Get memos based on maintenance",
      *   security={ {"bearer": {} }},
      *      description="Returns memos data based on maintenance",
      *     @OA\Parameter(
-     *          name="id",
+     *          name="maintenanceId",
      *          required=true,
      *          in="path",
      *      ),

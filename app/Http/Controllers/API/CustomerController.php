@@ -228,7 +228,7 @@ class CustomerController extends Controller
      *     security={ {"bearer": {} }},
      *      description="Returns devices data based on customer",
      *     @OA\Parameter(
-     *          name="id",
+     *          name="customerId",
      *          required=true,
      *          in="path",
      *      ),
