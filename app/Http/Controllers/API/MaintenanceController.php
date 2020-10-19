@@ -102,7 +102,7 @@ class MaintenanceController extends Controller
         $maintenance->save();
 
         $urls = [];
-        foreach ($request->url as $url) {
+        foreach ($request->imageUrls as $url) {
             $urls[] = ['url' => $url];
         }
         $maintenance->images()->createMany($urls);
@@ -204,7 +204,7 @@ class MaintenanceController extends Controller
             $maintenance->images()->delete();
 
             $urls = [];
-            foreach ($request->url as $url) {
+            foreach ($request->imageUrls as $url) {
                 $urls[] = ['url' => $url];
             }
             $maintenance->images()->createMany($urls);

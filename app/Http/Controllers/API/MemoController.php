@@ -193,7 +193,7 @@ class MemoController extends Controller
             $memo->images()->delete();
 
             $urls = [];
-            foreach ($request->url as $url) {
+            foreach ($request->imageUrls as $url) {
                 $urls[] = ['url' => $url];
             }
             $memo->images()->createMany($urls);
