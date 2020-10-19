@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\DeviceResource;
+use App\Http\Resources\DeviceResources;
 use App\Http\Resources\MaintenanceResources;
 use App\Models\Device;
 use App\Models\Maintenance;
@@ -42,7 +43,7 @@ class DeviceController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new DeviceResource(Device::with(['user', 'images'])->paginate($perPage));
+        return new DeviceResources(Device::with(['user', 'images'])->paginate($perPage));
     }
 
     /**
