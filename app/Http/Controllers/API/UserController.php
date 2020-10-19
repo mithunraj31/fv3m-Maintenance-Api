@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -172,12 +173,17 @@ class UserController extends Controller
             return response(['message' => 'Access denied!'], 403);
         }
 
-        $validatedData = $request->validate([
-            'name' => 'unique:users|max:255',
-            'email' => 'email',
-            'password' => '',
-            'role' => 'required | in:' . implode(',', $this->getRoles()),
-        ]);
+        $validatedData = $request->validate(
+            [
+                'name' => [
+                    'max:255',
+                    Rule::unique('users')->ignore($user->id),
+                ],
+                'email' => 'email',
+                'password' => '',
+                'role' => 'required | in:' . implode(',', $this->getRoles()),
+            ]
+        );
 
         if ($request->password) {
             $request->password = Hash::make($request->password);

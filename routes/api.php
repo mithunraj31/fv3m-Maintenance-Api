@@ -65,8 +65,8 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::middleware(['scope:admin,user,read-only'])->get('/maintenances', [MaintenanceController::class, 'index']);
     Route::middleware(['scope:admin,user'])->post('/maintenances', [MaintenanceController::class, 'store']);
     Route::middleware(['scope:admin,user,read-only'])->get('/maintenances/{maintenance}', [MaintenanceController::class, 'show']);
-    Route::middleware(['scope:admin,user'])->put('/maintenances', [MaintenanceController::class, 'update']);
-    Route::middleware(['scope:admin'])->delete('/maintenances', [MaintenanceController::class, 'destroy']);
+    Route::middleware(['scope:admin,user'])->put('/maintenances/{maintenance}', [MaintenanceController::class, 'update']);
+    Route::middleware(['scope:admin'])->delete('/maintenances/{maintenance}', [MaintenanceController::class, 'destroy']);
     // Maintenances Memos
     Route::middleware(['scope:admin,user,read-only'])->get('/maintenances/{maintenance}/memos', [MaintenanceController::class, 'getMemos']);
 
@@ -76,8 +76,8 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::middleware(['scope:admin,user,read-only'])->get('/memos', [MemoController::class, 'index']);
     Route::middleware(['scope:admin,user'])->post('/memos', [MemoController::class, 'store']);
     Route::middleware(['scope:admin,user,read-only'])->get('/memos/{memo}', [MemoController::class, 'show']);
-    Route::middleware(['scope:admin,user'])->put('/memos', [MemoController::class, 'update']);
-    Route::middleware(['scope:admin'])->delete('/memos', [MemoController::class, 'destroy']);
+    Route::middleware(['scope:admin,user'])->put('/memos/{memo}', [MemoController::class, 'update']);
+    Route::middleware(['scope:admin'])->delete('/memos/{memo}', [MemoController::class, 'destroy']);
 
     // Image Routes
     Route::middleware(['scope:admin,user'])->post('/images', [ImageController::class, 'store']);
