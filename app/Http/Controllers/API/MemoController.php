@@ -189,7 +189,7 @@ class MemoController extends Controller
         $memo->update($request->all());
 
         // Update image list
-        if ($request->url) {
+        if ($request->imageUrls) {
             $memo->images()->delete();
 
             $urls = [];
