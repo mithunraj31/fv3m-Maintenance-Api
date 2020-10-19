@@ -101,11 +101,13 @@ class MaintenanceController extends Controller
         $maintenance->user_id = Auth::user()->id;
         $maintenance->save();
 
-        $urls = [];
-        foreach ($request->imageUrls as $url) {
-            $urls[] = ['url' => $url];
+        if ($request->imageUrls) {
+            $urls = [];
+            foreach ($request->imageUrls as $url) {
+                $urls[] = ['url' => $url];
+            }
+            $maintenance->images()->createMany($urls);
         }
-        $maintenance->images()->createMany($urls);
 
         return response($maintenance->load('images'), 201);
     }
@@ -185,7 +187,7 @@ class MaintenanceController extends Controller
      *
      * )
      */
-    public function edit(Maintenance $maintenance, Request $request)
+    public function update(Maintenance $maintenance, Request $request)
     {
         //validating
         $validatedData = $request->validate([
@@ -200,7 +202,7 @@ class MaintenanceController extends Controller
         $maintenance->update($request->all());
 
         // Update image list
-        if ($request->url) {
+        if ($request->imageUrls) {
             $maintenance->images()->delete();
 
             $urls = [];
