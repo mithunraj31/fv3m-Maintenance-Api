@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\UserResources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new UserResource(User::paginate($perPage));
+        return new UserResources(User::paginate($perPage));
     }
     /**
      * @OA\Get(

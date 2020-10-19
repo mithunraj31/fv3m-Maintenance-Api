@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\MemoResource;
+use App\Http\Resources\MemoResources;
 use App\Models\Memo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,7 @@ class MemoController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new MemoResource(Memo::with(['user', 'images', 'maintenance'])->paginate($perPage));
+        return new MemoResources(Memo::with(['user', 'images', 'maintenance'])->paginate($perPage));
     }
 
 
