@@ -64,7 +64,7 @@ class MemoController extends Controller
      *       @OA\JsonContent(
      *       required={"name","maintenance_id"},
      *       @OA\Property(property="description", type="string", example="camera repair"),
-     *       @OA\Property(property="maintenance_id", type="int",  example="1"),
+     *       @OA\Property(property="maintenance_id", type="int",  example=1),
      *       @OA\Property(property="imageUrls", type="string",
      *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
      *    ),
@@ -164,7 +164,7 @@ class MemoController extends Controller
      *       required={"name","maintenance_id"},
      *       @OA\Property(property="name", type="string", example="maintenece"),
      *       @OA\Property(property="description", type="string", example="camera repair"),
-     *       @OA\Property(property="maintenance_id", type="int",  example="1"),
+     *       @OA\Property(property="maintenance_id", type="int",  example=1),
      *       @OA\Property(property="imageUrls", type="string",
      *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
      *    ),
@@ -190,7 +190,7 @@ class MemoController extends Controller
         $memo->update($request->all());
 
         // Update image list
-        if ($request->url) {
+        if ($request->imageUrls) {
             $memo->images()->delete();
 
             $urls = [];

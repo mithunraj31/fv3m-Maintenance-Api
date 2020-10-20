@@ -68,7 +68,7 @@ class MaintenanceController extends Controller
      *       @OA\Property(property="description", type="string", example="camera repair"),
      *       @OA\Property(property="lat", type="string",  example="35.26"),
      *       @OA\Property(property="lng", type="string", example="176.2"),
-     *       @OA\Property(property="device_id", type="int",  example="1"),
+     *       @OA\Property(property="device_id", type="int",  example=1),
      *       @OA\Property(property="imageUrls", type="string",
      *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
      *    ),
@@ -101,11 +101,13 @@ class MaintenanceController extends Controller
         $maintenance->user_id = Auth::user()->id;
         $maintenance->save();
 
-        $urls = [];
-        foreach ($request->imageUrls as $url) {
-            $urls[] = ['url' => $url];
+        if ($request->imageUrls) {
+            $urls = [];
+            foreach ($request->imageUrls as $url) {
+                $urls[] = ['url' => $url];
+            }
+            $maintenance->images()->createMany($urls);
         }
-        $maintenance->images()->createMany($urls);
 
         return response($maintenance->load('images'), 201);
     }
@@ -172,7 +174,7 @@ class MaintenanceController extends Controller
      *       @OA\Property(property="description", type="string", example="camera repair"),
      *       @OA\Property(property="lat", type="string",  example="35.26"),
      *       @OA\Property(property="lng", type="string", example="176.2"),
-     *       @OA\Property(property="device_id", type="int",  example="1"),
+     *       @OA\Property(property="device_id", type="int",  example=1),
      *       @OA\Property(property="imageUrls", type="string",
      *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
      *    ),
@@ -185,7 +187,7 @@ class MaintenanceController extends Controller
      *
      * )
      */
-    public function edit(Maintenance $maintenance, Request $request)
+    public function update(Maintenance $maintenance, Request $request)
     {
         //validating
         $validatedData = $request->validate([
@@ -200,7 +202,7 @@ class MaintenanceController extends Controller
         $maintenance->update($request->all());
 
         // Update image list
-        if ($request->url) {
+        if ($request->imageUrls) {
             $maintenance->images()->delete();
 
             $urls = [];
