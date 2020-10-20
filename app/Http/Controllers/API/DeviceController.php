@@ -98,7 +98,7 @@ class DeviceController extends Controller
             'imageUrls.*' => 'string'
         ]);
 
-        $device = new Device($validatedData);
+        $device = new Device($request->all());
         $device->user_id = Auth::user()->id;
         $device->save();
 
