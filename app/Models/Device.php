@@ -23,7 +23,6 @@ class Device extends Model
         'status_id',
         'serial_number',
         'regist_date',
-        'mutated',
         'mutated_date',
         'os',
         'description'

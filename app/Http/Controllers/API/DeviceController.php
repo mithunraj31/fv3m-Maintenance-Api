@@ -67,14 +67,17 @@ class DeviceController extends Controller
      *       @OA\Property(property="name", type="string", example="forklift"),
      *       @OA\Property(property="lat", type="string",  example="35.26"),
      *       @OA\Property(property="lng", type="string", example="176.2"),
-     *       @OA\Property(property="customer_id", type="int",  example="1"),
-     *       @OA\Property(property="status_id", type="int", example="1"),
-     *       @OA\Property(property="imageUrls", type="array",  @OA\Items(
-     *          type="array",
-     *          @OA\Items()
-     *      ), example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
-     *    ),
-     * ),
+     *       @OA\Property(property="customer_id", type="int",  example=1),
+     *       @OA\Property(property="status_id", type="int", example=1),
+     *       @OA\Property(property="serial_number", type="string", example="MAF0225"),
+     *       @OA\Property(property="regist_date", type="date", example="2020-10-20"),
+     *       @OA\Property(property="mutated_date", type="date", example="2020-10-25"),
+     *       @OA\Property(property="os", type="int", example=1),
+     *       @OA\Property(property="description", type="string", example="describe your device"),
+     *       @OA\Property(property="imageUrls", type="array",
+     *          @OA\Items(example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png")),
+     *       ),
+     *      ),
      *      @OA\Response(
      *          response=201,
      *          description="returns stored device data",
@@ -95,7 +98,12 @@ class DeviceController extends Controller
             'lng' => 'nullable|max:30',
             'customer_id' => 'required|exists:App\Models\Customer,id',
             'status_id' => 'required|exists:App\Models\Status,id',
-            'imageUrls.*' => 'string'
+            'imageUrls.*' => 'string',
+            'serial_number' => 'string|nullable',
+            'regist_date' => 'date|nullable',
+            'mutated_date' => 'date|nullable',
+            'os' => 'integer|nullable',
+            'description' => 'string|nullable'
         ]);
 
         $device = new Device($request->all());
@@ -173,14 +181,17 @@ class DeviceController extends Controller
      *       @OA\Property(property="name", type="string", example="forklift"),
      *       @OA\Property(property="lat", type="string",  example="35.26"),
      *       @OA\Property(property="lng", type="string", example="176.2"),
-     *       @OA\Property(property="customer_id", type="int",  example="1"),
-     *       @OA\Property(property="status_id", type="int", example="1"),
+     *       @OA\Property(property="customer_id", type="int",  example=1),
+     *       @OA\Property(property="status_id", type="int", example=1),
+     *       @OA\Property(property="serial_number", type="string", example="MAF0225"),
+     *       @OA\Property(property="regist_date", type="date", example="2020-10-20"),
+     *       @OA\Property(property="mutated_date", type="date", example="2020-10-25"),
+     *       @OA\Property(property="os", type="int", example=1),
+     *       @OA\Property(property="description", type="string", example="describe your device"),
      *       @OA\Property(property="imageUrls", type="array",  @OA\Items(
-     *          type="array",
-     *          @OA\Items()
-     *      ), example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
-     *    ),
-     * ),
+     *              example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png")),
+     *          ),
+     *       ),
      *      @OA\Response(
      *          response=201,
      *          description="returns updated devices data",
@@ -198,7 +209,12 @@ class DeviceController extends Controller
             'lng' => 'nullable|max:30',
             'customer_id' => 'exists:App\Models\Customer,id',
             'status_id' => 'exists:App\Models\Status,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'url',
+            'serial_number' => 'string|nullable',
+            'regist_date' => 'date|nullable',
+            'mutated_date' => 'date|nullable',
+            'os' => 'integer|nullable',
+            'description' => 'string|nullable'
         ]);
 
         $device->update($request->all());

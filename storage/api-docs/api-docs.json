@@ -414,19 +414,37 @@
                                     },
                                     "customer_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "status_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
+                                    },
+                                    "serial_number": {
+                                        "type": "string",
+                                        "example": "MAF0225"
+                                    },
+                                    "regist_date": {
+                                        "type": "date",
+                                        "example": "2020-10-20"
+                                    },
+                                    "mutated_date": {
+                                        "type": "date",
+                                        "example": "2020-10-25"
+                                    },
+                                    "os": {
+                                        "type": "int",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "describe your device"
                                     },
                                     "imageUrls": {
                                         "type": "array",
                                         "items": {
-                                            "type": "array",
-                                            "items": {}
-                                        },
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -527,19 +545,37 @@
                                     },
                                     "customer_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "status_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
+                                    },
+                                    "serial_number": {
+                                        "type": "string",
+                                        "example": "MAF0225"
+                                    },
+                                    "regist_date": {
+                                        "type": "date",
+                                        "example": "2020-10-20"
+                                    },
+                                    "mutated_date": {
+                                        "type": "date",
+                                        "example": "2020-10-25"
+                                    },
+                                    "os": {
+                                        "type": "int",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "describe your device"
                                     },
                                     "imageUrls": {
                                         "type": "array",
                                         "items": {
-                                            "type": "array",
-                                            "items": {}
-                                        },
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -772,7 +808,7 @@
                                     },
                                     "device_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "imageUrls": {
                                         "type": "string",
@@ -845,7 +881,7 @@
                 ],
                 "summary": "Update maintenance",
                 "description": "updates maintenance data",
-                "operationId": "App\\Http\\Controllers\\MaintenanceController::edit",
+                "operationId": "App\\Http\\Controllers\\MaintenanceController::update",
                 "parameters": [
                     {
                         "name": "maintenanceId",
@@ -882,7 +918,7 @@
                                     },
                                     "device_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "imageUrls": {
                                         "type": "string",
@@ -1061,7 +1097,7 @@
                                     },
                                     "maintenance_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "imageUrls": {
                                         "type": "string",
@@ -1190,7 +1226,7 @@
                                     },
                                     "maintenance_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "imageUrls": {
                                         "type": "string",

@@ -16,7 +16,6 @@ class AddDeviceBasicInfoColumns extends Migration
         Schema::table('devices', function (Blueprint $table) {
             $table->string('serial_number')->nullable();
             $table->date('regist_date')->nullable();
-            $table->boolean('mutated')->default(false);
             $table->date('mutated_date')->nullable();
             $table->integer('os')->nullable();
             $table->longText('description')->nullable();
