@@ -34,6 +34,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::put('/users/{user}', [UserController::class, 'update']); // Admin or current user
     // get user by id
     Route::get('/users/{user}', [UserController::class, 'show']); // Admin or current user
+    Route::middleware(['scope:admin'])->delete('/users/{user}', [UserController::class, 'destroy']);
 
 
 

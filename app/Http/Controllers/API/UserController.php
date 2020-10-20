@@ -186,11 +186,44 @@ class UserController extends Controller
             ]
         );
 
-        if ($request->password) {
-            $request->password = Hash::make($request->password);
+        $requestBody = $request->only(['name', 'email', 'role']);
+
+        if (!empty($request->password)) {
+            $password = Hash::make($request->password);
+            $requestBodyWithNewPassword = array_merge($requestBody, ['password' => $password]);
+            $user->update($requestBodyWithNewPassword);
+        } else {
+            $user->update($requestBody);
         }
-        $user->update();
+
         return response($user);
+    }
+
+    /**
+     * @OA\Delete(
+     *      path="/users/{userId}",
+     *      tags={"Users"},
+     *      summary="Delete user",
+     *   security={ {"bearer": {} }},
+     *      description="delete user data",
+     *
+     *   @OA\Parameter(
+     *          name="userId",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *       )
+     *
+     * )
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return response(['message' => 'Success!'], 200);
     }
 
     private function getRoles()
