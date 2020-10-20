@@ -20,7 +20,12 @@ class Device extends Model
         'lat',
         'lng',
         'customer_id',
-        'status_id'
+        'status_id',
+        'serial_number',
+        'regist_date',
+        'mutated_date',
+        'os',
+        'description'
     ];
 
     public function user()
