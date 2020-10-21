@@ -44,7 +44,7 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "mbel003@mbel.co.jp"
+                                        "example": "mithunraj.admin@mbel.co.jp"
                                     },
                                     "password": {
                                         "type": "string",
@@ -133,7 +133,7 @@
                 "description": "Returns customer data",
                 "operationId": "App\\Http\\Controllers\\CustomerController::store",
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Enter customer data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -142,7 +142,7 @@
                                     "name"
                                 ],
                                 "properties": {
-                                    "email": {
+                                    "name": {
                                         "type": "string",
                                         "example": "mithun"
                                     },
@@ -197,7 +197,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns customer data",
                         "content": {
                             "application/json": {
@@ -229,7 +229,7 @@
                     }
                 ],
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Enter Required customer data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -238,7 +238,7 @@
                                     "name"
                                 ],
                                 "properties": {
-                                    "email": {
+                                    "name": {
                                         "type": "string",
                                         "example": "mithun"
                                     },
@@ -253,7 +253,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns updated customer data",
                         "content": {
                             "application/json": {
@@ -308,7 +308,7 @@
                 ]
             }
         },
-        "  /customers/{customerId}/devices": {
+        "/customers/{customerId}/devices": {
             "get": {
                 "tags": [
                     "Customers"
@@ -334,8 +334,8 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "returns based on customers",
+                    "200": {
+                        "description": "returns devices based on customers",
                         "content": {
                             "application/json": {
                                 "schema": {

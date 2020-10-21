@@ -66,10 +66,10 @@ class CustomerController extends Controller
      *      description="Returns customer data",
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Enter customer data",
      *       @OA\JsonContent(
      *       required={"name"},
-     *       @OA\Property(property="email", type="string", example="mithun"),
+     *       @OA\Property(property="name", type="string", example="mithun"),
      *       @OA\Property(property="description", type="string",  example="new customer"),
      *    ),
      * ),
@@ -121,7 +121,7 @@ class CustomerController extends Controller
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns customer data",
      *       @OA\JsonContent(ref="")),
      *       ),
@@ -161,15 +161,15 @@ class CustomerController extends Controller
      *      ),
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Enter Required customer data",
      *       @OA\JsonContent(
      *       required={"name"},
-     *       @OA\Property(property="email", type="string", example="mithun"),
+     *       @OA\Property(property="name", type="string", example="mithun"),
      *       @OA\Property(property="description", type="string",  example="new customer"),
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated customer data",
      *        @OA\JsonContent(ref="")
      *       ),
@@ -236,7 +236,7 @@ class CustomerController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="  /customers/{customerId}/devices",
+     *      path="/customers/{customerId}/devices",
      *      tags={"Customers"},
      *      summary="Get devices based on customer",
      *     security={ {"bearer": {} }},
@@ -257,8 +257,8 @@ class CustomerController extends Controller
      *          in="query",
      *      ),
      *      @OA\Response(
-     *          response=201,
-     *          description="returns based on customers",
+     *          response=200,
+     *          description="returns devices based on customers",
      *        @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))
      *       ),

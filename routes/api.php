@@ -32,9 +32,6 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::get('/users', [UserController::class, 'index'])->middleware(['scope:admin']); // Admin
     // create new user
     Route::middleware(['scopes:admin'])->post('/users', [UserController::class, 'store']); // Admin
-    //check email is already registerd the rooute is placed at this position since
-    //laravel takes email as model if the route is given after get user entity.
-
     // update exsisting user
     Route::put('/users/{user}', [UserController::class, 'update']); // Admin or current user
     // get user by id
