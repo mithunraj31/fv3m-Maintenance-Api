@@ -38,5 +38,8 @@ class AuthServiceProvider extends ServiceProvider
         Passport::setDefaultScope([
             'read-only'
         ]);
+
+        Passport::tokensExpireIn(now()->addHours(1));
+        Passport::personalAccessTokensExpireIn(now()->addHours(1));
     }
 }
