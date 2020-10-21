@@ -230,4 +230,41 @@ class UserController extends Controller
     {
         return array('admin', 'user', 'read-only');
     }
+
+
+    /**
+     * @OA\Get(
+     *      path="/users/verify/email",
+     *      tags={"Users"},
+     *      summary="Email verification",
+     * security={ {"bearer": {} }},
+     *      description="Checks whether email is already registereda",
+     *
+     *   @OA\Parameter(
+     *          name="val",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="returns boolean value",
+     *        @OA\JsonContent(ref="")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
+     */
+    public function isEmailisAlreadyRegistered(Request $request)
+    {
+        $validatedData = $request->validate([
+            'val' => 'required|email',
+        ]);
+
+        $email = $request->query('val');
+        return [
+            'is_exists' => User::where('email', '=', $email)->exists()
+        ];
+    }
 }
