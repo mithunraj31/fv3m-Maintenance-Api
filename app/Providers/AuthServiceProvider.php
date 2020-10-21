@@ -39,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider
             'read-only'
         ]);
 
-        Passport::tokensExpireIn(now()->addHours(1));
-        Passport::personalAccessTokensExpireIn(now()->addHours(1));
+        Passport::tokensExpireIn(now()->addHours(8));
+        Passport::personalAccessTokensExpireIn(now()->addHours(8));
     }
 }

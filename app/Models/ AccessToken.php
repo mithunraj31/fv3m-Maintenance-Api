@@ -8,6 +8,7 @@ use Lcobucci\JWT\Signer\Key;
 use League\OAuth2\Server\CryptKey;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Laravel\Passport\Bridge\AccessToken as BaseToken;
+use Jenssegers\Agent\Agent;
 
 class AccessToken extends BaseToken {
 
@@ -28,12 +29,19 @@ class AccessToken extends BaseToken {
 	}
 
 	public function convertToJWT( CryptKey $privateKey ) {
-		$builder = new Builder();
+        $builder = new Builder();
+        $expiryTimestamp = $this->getExpiryDateTime()->getTimestamp();
+
+        $agent = new Agent();
+        if ($agent->isAndroidOS()) {
+            $expiryTimestamp = now()->addHours(1)->getTimestamp();
+        }
+
 		$builder->permittedFor( $this->getClient()->getIdentifier() )
 		        ->identifiedBy( $this->getIdentifier(), true )
 		        ->issuedAt( time() )
 		        ->canOnlyBeUsedAfter( time() )
-		        ->expiresAt( $this->getExpiryDateTime()->getTimestamp() )
+		        ->expiresAt( $expiryTimestamp )
                 ->relatedTo( $this->getUserIdentifier() )
 		        ->withClaim( 'scopes', $this->getScopes() );
 
