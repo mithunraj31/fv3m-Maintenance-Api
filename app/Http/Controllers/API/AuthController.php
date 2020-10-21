@@ -26,13 +26,13 @@ class AuthController extends Controller
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
-     *          description="returns stored user data",
+     *          response=200,
+     *          description="returns stored user data and token",
      *        @OA\JsonContent(ref="")
      *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Access denied!"
+     *       @OA\Response(
+     *          response=401,
+     *          description="Invalid Credentials"
      *      )
      * )
      */
@@ -45,7 +45,7 @@ class AuthController extends Controller
         ]);
 
         if (!Auth::attempt($loginData)) {
-            return response(['message' => 'Invalid Credentials']);
+            return response(['message' => 'Invalid Credentials'], 401);
         }
         $user = User::find(Auth::user()->id);
         $accessToken =  $user->createToken($user->email, [$user->role])->accessToken;

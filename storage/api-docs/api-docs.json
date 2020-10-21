@@ -58,8 +58,8 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "returns stored user data",
+                    "200": {
+                        "description": "returns stored user data and token",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -68,8 +68,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Access denied!"
+                    "401": {
+                        "description": "Invalid Credentials"
                     }
                 },
                 "security": [
@@ -111,6 +111,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!."
@@ -163,6 +166,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!"
@@ -256,6 +262,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!."
                     }
                 },
                 "security": [
@@ -281,6 +293,12 @@
                 "responses": {
                     "200": {
                         "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!."
                     }
                 },
                 "security": [
@@ -329,8 +347,11 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
-                        "description": "Access denied!"
+                        "description": "Access denied!."
                     }
                 },
                 "security": [
@@ -1506,11 +1527,76 @@
                         "bearer": []
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "description": "delete user data",
+                "operationId": "App\\Http\\Controllers\\API\\UserController::destroy",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/users/verify/email": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Email verification",
+                "description": "Checks whether email is already registereda",
+                "operationId": "App\\Http\\Controllers\\API\\UserController::isEmailisAlreadyRegistered",
+                "parameters": [
+                    {
+                        "name": "val",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "returns boolean value",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         }
     },
     "components": {
         "responses": {
+            "401": {
+                "description": "Unauthenticated"
+            },
             "403": {
                 "description": "Access denied!"
             }

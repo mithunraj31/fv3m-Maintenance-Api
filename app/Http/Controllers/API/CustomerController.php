@@ -39,6 +39,7 @@ class CustomerController extends Controller
      *      description="returns list of customers with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *      @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
@@ -77,6 +78,7 @@ class CustomerController extends Controller
      *          description="returns stored customer data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -122,7 +124,12 @@ class CustomerController extends Controller
      *          response=201,
      *          description="returns customer data",
      *       @OA\JsonContent(ref="")),
-     *       )
+     *       ),
+     *     @OA\Response(response="401", description="Unauthenticated"),
+     *       OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *
      * )
      */
@@ -165,7 +172,9 @@ class CustomerController extends Controller
      *          response=201,
      *          description="returns updated customer data",
      *        @OA\JsonContent(ref="")
-     *       )
+     *       ),
+     *       @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(response="403", description="Access denied!.")
      *
      * )
      */
@@ -207,7 +216,10 @@ class CustomerController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Success",
-     *       )
+     *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(response="403", description="Access denied!.")
+     *
      *
      * )
      */
@@ -250,10 +262,9 @@ class CustomerController extends Controller
      *        @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))
      *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Access denied!"
-     *      )
+     *       @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(response="403", description="Access denied!.")
+     *
      * )
      */
     public function getDevices($customer, Request $request)
