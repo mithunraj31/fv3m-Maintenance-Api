@@ -258,6 +258,10 @@ class UserController extends Controller
      */
     public function isEmailisAlreadyRegistered(Request $request)
     {
+        $validatedData = $request->validate([
+            'val' => 'required|email',
+        ]);
+
         $email = $request->query('val');
 
         return [
