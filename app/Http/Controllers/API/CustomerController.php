@@ -7,6 +7,7 @@ use App\Http\Resources\CustomerResources;
 use App\Http\Resources\DeviceResources;
 use App\Models\Customer;
 use App\Models\Device;
+use App\QueryBuilders\CustomerQueryBuilder;
 use App\QueryBuilders\DeviceQueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,8 +44,9 @@ class CustomerController extends Controller
      */
     public function index(Request $request): CustomerResources
     {
-        $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new CustomerResources(Customer::with('user')->paginate($perPage));
+        $builder = Customer::with('user');
+        $pager = CustomerQueryBuilder::applyWithPaginator($request, $builder);
+        return new CustomerResources($pager);
     }
 
 
