@@ -263,7 +263,6 @@ class UserController extends Controller
         ]);
 
         $email = $request->query('val');
-
         return [
             'is_exists' => User::where('email', '=', $email)->exists()
         ];
