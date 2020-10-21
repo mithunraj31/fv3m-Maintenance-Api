@@ -2,15 +2,15 @@
 
 namespace App\QueryBuilders;
 
-use App\Models\Device;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
-class DeviceQueryBuilder implements QueryBuilderInterface
+class CustomerQueryBuilder implements QueryBuilderInterface
 {
     public static function apply(Request $filters, $builder = null)
     {
         if ($builder == null) {
-            $builder = (new Device)->newQuery();
+            $builder = (new Customer())->newQuery();
         }
 
         // free text search
