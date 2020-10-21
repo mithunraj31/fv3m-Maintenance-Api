@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\CustomerResources;
-use App\Http\Resources\Customers;
 use App\Http\Resources\DeviceResources;
 use App\Models\Customer;
 use App\Models\Device;
+use App\QueryBuilders\DeviceQueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -256,7 +256,8 @@ class CustomerController extends Controller
      */
     public function getDevices($customer, Request $request)
     {
-        $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new DeviceResources(Device::where('customer_id', $customer)->paginate($perPage));
+        $builder = Device::where('customer_id', $customer);
+        $pager = DeviceQueryBuilder::applyWithPaginator($request, $builder);
+        return new DeviceResources($pager);
     }
 }

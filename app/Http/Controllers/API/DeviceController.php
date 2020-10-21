@@ -7,6 +7,7 @@ use App\Http\Resources\DeviceResources;
 use App\Http\Resources\MaintenanceResources;
 use App\Models\Device;
 use App\Models\Maintenance;
+use App\QueryBuilders\DeviceQueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,8 +43,9 @@ class DeviceController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new DeviceResources(Device::with(['user', 'images'])->paginate($perPage));
+        $builder = Device::with(['user', 'images']);
+        $pager = DeviceQueryBuilder::applyWithPaginator($request, $builder);
+        return new DeviceResources($pager);
     }
 
     /**
