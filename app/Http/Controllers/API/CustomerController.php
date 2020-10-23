@@ -39,6 +39,7 @@ class CustomerController extends Controller
      *      description="returns list of customers with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *      @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
@@ -65,10 +66,10 @@ class CustomerController extends Controller
      *      description="Returns customer data",
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Enter customer data",
      *       @OA\JsonContent(
      *       required={"name"},
-     *       @OA\Property(property="email", type="string", example="mithun"),
+     *       @OA\Property(property="name", type="string", example="mithun"),
      *       @OA\Property(property="description", type="string",  example="new customer"),
      *    ),
      * ),
@@ -77,6 +78,7 @@ class CustomerController extends Controller
      *          description="returns stored customer data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -89,6 +91,7 @@ class CustomerController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'nullable|max:255',
+            'furigana' => 'nullable',
         ]);
         $group = new Customer($validatedData);
 
@@ -119,10 +122,15 @@ class CustomerController extends Controller
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns customer data",
      *       @OA\JsonContent(ref="")),
-     *       )
+     *       ),
+     *     @OA\Response(response="401", description="Unauthenticated"),
+     *       OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *
      * )
      */
@@ -154,18 +162,20 @@ class CustomerController extends Controller
      *      ),
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Enter Required customer data",
      *       @OA\JsonContent(
      *       required={"name"},
-     *       @OA\Property(property="email", type="string", example="mithun"),
+     *       @OA\Property(property="name", type="string", example="mithun"),
      *       @OA\Property(property="description", type="string",  example="new customer"),
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated customer data",
      *        @OA\JsonContent(ref="")
-     *       )
+     *       ),
+     *       @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(response="403", description="Access denied!.")
      *
      * )
      */
@@ -175,6 +185,7 @@ class CustomerController extends Controller
         $request->validate([
             'name' => 'max:255',
             'description' => 'nullable|max:255',
+            'furigana' => 'nullable',
         ]);
 
         $request->user_id = Auth::user()->id;
@@ -207,7 +218,10 @@ class CustomerController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Success",
-     *       )
+     *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(response="403", description="Access denied!.")
+     *
      *
      * )
      */
@@ -224,7 +238,7 @@ class CustomerController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="  /customers/{customerId}/devices",
+     *      path="/customers/{customerId}/devices",
      *      tags={"Customers"},
      *      summary="Get devices based on customer",
      *     security={ {"bearer": {} }},
@@ -245,15 +259,14 @@ class CustomerController extends Controller
      *          in="query",
      *      ),
      *      @OA\Response(
-     *          response=201,
-     *          description="returns based on customers",
+     *          response=200,
+     *          description="returns devices based on customers",
      *        @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))
      *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Access denied!"
-     *      )
+     *       @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(response="403", description="Access denied!.")
+     *
      * )
      */
     public function getDevices($customer, Request $request)

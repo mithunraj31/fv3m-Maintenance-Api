@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Customer extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -17,16 +17,17 @@ class Customer extends Model
      */
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'furigana'
     ];
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User','user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     public function devices()
     {
-        return $this->hasMany('App\Models\Device','customer_id');
+        return $this->hasMany('App\Models\Device', 'customer_id');
     }
 }

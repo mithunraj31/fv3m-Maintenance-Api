@@ -33,6 +33,7 @@ class UserController extends Controller
      *      description="returns list of users with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
@@ -55,10 +56,11 @@ class UserController extends Controller
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns user data",
-     *       @OA\JsonContent(ref="")),
+     *       @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -92,7 +94,7 @@ class UserController extends Controller
      *      description="Returns user data",
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass user data",
      *       @OA\JsonContent(
      *       required={"name","email","role","password"},
      *       @OA\Property(property="name", type="string", example="ponpeera"),
@@ -108,6 +110,7 @@ class UserController extends Controller
      *          description="returns stored user data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -147,7 +150,7 @@ class UserController extends Controller
      *      ),
      *     @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass user data",
      *       @OA\JsonContent(
      *       required={"name","email","role"},
      *       @OA\Property(property="name", type="string", example="ponpeera"),
@@ -158,10 +161,11 @@ class UserController extends Controller
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated user data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -216,8 +220,12 @@ class UserController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Success",
-     *       )
-     *
+     *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      * )
      */
     public function destroy(User $user)
@@ -229,5 +237,43 @@ class UserController extends Controller
     private function getRoles()
     {
         return array('admin', 'user', 'read-only');
+    }
+
+
+    /**
+     * @OA\Get(
+     *      path="/users/verify/email",
+     *      tags={"Users"},
+     *      summary="Email verification",
+     * security={ {"bearer": {} }},
+     *      description="Checks whether email is already registereda",
+     *
+     *   @OA\Parameter(
+     *          name="val",
+     *          required=true,
+     *         in="query",
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="returns boolean value",
+     *        @OA\JsonContent(ref="")
+     *       ),
+     * *  @OA\Response(response="401", description="Unauthenticated"),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
+     */
+    public function isEmailisAlreadyRegistered(Request $request)
+    {
+        $validatedData = $request->validate([
+            'val' => 'required|email',
+        ]);
+
+        $email = $request->query('val');
+        return [
+            'is_exists' => User::where('email', '=', $email)->exists()
+        ];
     }
 }
