@@ -88,7 +88,7 @@ class MemoController extends Controller
         $validatedData = $request->validate([
             'description' => 'nullable|max:255',
             'maintenance_id' => 'required|exists:App\Models\Maintenance,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'string'
         ]);
 
         $memo = new Memo($validatedData);
@@ -197,7 +197,7 @@ class MemoController extends Controller
             'name' => 'max:255',
             'description' => 'nullable|max:255',
             'maintenance_id' => 'exists:App\Models\Maintenance,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'string'
         ]);
 
         $memo->update($request->all());

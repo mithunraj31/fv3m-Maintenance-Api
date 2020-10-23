@@ -225,7 +225,7 @@ class DeviceController extends Controller
             'lng' => 'nullable|max:30',
             'customer_id' => 'exists:App\Models\Customer,id',
             'status_id' => 'exists:App\Models\Status,id',
-            'imageUrls.*' => 'url',
+            'imageUrls.*' => 'string',
             'serial_number' => 'string|nullable',
             'regist_date' => 'date|nullable',
             'mutated_date' => 'date|nullable',
