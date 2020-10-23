@@ -33,6 +33,7 @@ class UserController extends Controller
      *      description="returns list of users with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
@@ -55,10 +56,11 @@ class UserController extends Controller
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns user data",
-     *       @OA\JsonContent(ref="")),
+     *       @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -108,6 +110,7 @@ class UserController extends Controller
      *          description="returns stored user data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -158,10 +161,11 @@ class UserController extends Controller
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated user data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -216,8 +220,12 @@ class UserController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Success",
-     *       )
-     *
+     *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      * )
      */
     public function destroy(User $user)
@@ -250,6 +258,7 @@ class UserController extends Controller
      *          description="returns boolean value",
      *        @OA\JsonContent(ref="")
      *       ),
+     * *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"

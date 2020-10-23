@@ -865,8 +865,10 @@
                                         "example": 1
                                     },
                                     "imageUrls": {
-                                        "type": "string",
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        "type": "array",
+                                        "items": {
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -984,8 +986,10 @@
                                         "example": 1
                                     },
                                     "imageUrls": {
-                                        "type": "string",
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        "type": "array",
+                                        "items": {
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -1081,7 +1085,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns memos data based on maintenance",
                         "content": {
                             "application/json": {
@@ -1141,6 +1145,9 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
                         "description": "Access denied!."
                     }
@@ -1179,7 +1186,9 @@
                                     },
                                     "imageUrls": {
                                         "type": "string",
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        "items": {
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -1197,6 +1206,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!"
@@ -1225,7 +1237,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns memo data",
                         "content": {
                             "application/json": {
@@ -1234,6 +1246,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -1257,8 +1275,14 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -1308,7 +1332,9 @@
                                     },
                                     "imageUrls": {
                                         "type": "string",
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        "items": {
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -1317,7 +1343,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns updated memos data",
                         "content": {
                             "application/json": {
@@ -1326,6 +1352,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -1356,8 +1388,11 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
-                        "description": "Access denied!."
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -1399,6 +1434,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!."
@@ -1469,6 +1507,9 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
                         "description": "Access denied!"
                     }
@@ -1496,7 +1537,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns user data",
                         "content": {
                             "application/json": {
@@ -1505,6 +1546,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -1565,7 +1612,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns updated user data",
                         "content": {
                             "application/json": {
@@ -1574,6 +1621,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!"
@@ -1602,6 +1652,12 @@
                 "responses": {
                     "200": {
                         "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -1637,6 +1693,9 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
                         "description": "Access denied!"
                     }
@@ -1653,9 +1712,6 @@
         "responses": {
             "401": {
                 "description": "Unauthenticated"
-            },
-            "403": {
-                "description": "Access denied!"
             }
         },
         "securitySchemes": {
