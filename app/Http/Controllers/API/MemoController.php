@@ -35,6 +35,7 @@ class MemoController extends Controller
      *      description="returns list of memos with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *   @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
@@ -60,13 +61,13 @@ class MemoController extends Controller
      *      description="Returns memo data",
      *     @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass memo data",
      *       @OA\JsonContent(
      *       required={"name","maintenance_id"},
      *       @OA\Property(property="description", type="string", example="camera repair"),
      *       @OA\Property(property="maintenance_id", type="int",  example=1),
      *       @OA\Property(property="imageUrls", type="string",
-     *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *      @OA\Items(example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png")),
      *    ),
      * ),
      *      @OA\Response(
@@ -74,6 +75,7 @@ class MemoController extends Controller
      *          description="returns stored memo data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -123,9 +125,15 @@ class MemoController extends Controller
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns memo data",
-     *       @OA\JsonContent(ref="")),
+     *       @OA\JsonContent(ref="")
+     *     ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *       )
      *
      * )
@@ -159,21 +167,26 @@ class MemoController extends Controller
      *      ),
      *    @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass memo data",
      *       @OA\JsonContent(
      *       required={"name","maintenance_id"},
      *       @OA\Property(property="name", type="string", example="maintenece"),
      *       @OA\Property(property="description", type="string", example="camera repair"),
      *       @OA\Property(property="maintenance_id", type="int",  example=1),
      *       @OA\Property(property="imageUrls", type="string",
-     *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *       @OA\Items(example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png")),
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated memos data",
      *        @OA\JsonContent(ref="")
-     *       )
+     *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *
      * )
      */
@@ -223,9 +236,14 @@ class MemoController extends Controller
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="Success",
-     *       )
+     *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *
      * )
      */

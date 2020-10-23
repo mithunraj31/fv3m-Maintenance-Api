@@ -23,7 +23,11 @@ class StatusController extends Controller
      *      description="returns list of status",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
-     *     @OA\Response(response="403", description="Access denied!.")
+     *    @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      * )
      */
     public function index()

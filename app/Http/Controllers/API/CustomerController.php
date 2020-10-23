@@ -91,6 +91,7 @@ class CustomerController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'nullable|max:255',
+            'furigana' => 'nullable',
         ]);
         $group = new Customer($validatedData);
 
@@ -184,6 +185,7 @@ class CustomerController extends Controller
         $request->validate([
             'name' => 'max:255',
             'description' => 'nullable|max:255',
+            'furigana' => 'nullable',
         ]);
 
         $request->user_id = Auth::user()->id;

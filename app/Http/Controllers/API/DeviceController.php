@@ -38,6 +38,7 @@ class DeviceController extends Controller
      *      description="returns list of devices with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *   @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
@@ -63,7 +64,7 @@ class DeviceController extends Controller
      *      description="Returns device data",
      *     @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass device data",
      *       @OA\JsonContent(
      *       required={"name"},
      *       @OA\Property(property="name", type="string", example="forklift"),
@@ -85,6 +86,7 @@ class DeviceController extends Controller
      *          description="returns stored device data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -141,10 +143,17 @@ class DeviceController extends Controller
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns device data",
-     *       @OA\JsonContent(ref="")),
-     *       )
+     *       @OA\JsonContent(ref="")
+     *         ),
+     * @OA\Response(response="401", description="Unauthenticated"),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     *
+     *
      *
      * )
      */
@@ -177,7 +186,7 @@ class DeviceController extends Controller
      *      ),
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass device data",
      *       @OA\JsonContent(
      *       required={"name"},
      *       @OA\Property(property="name", type="string", example="forklift"),
@@ -195,10 +204,15 @@ class DeviceController extends Controller
      *          ),
      *       ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated devices data",
      *        @OA\JsonContent(ref="")
-     *       )
+     *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *
      * )
      */
@@ -256,9 +270,14 @@ class DeviceController extends Controller
      *      ),
      *
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="Success",
-     *       )
+     *       ),
+     * @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *
      * )
      */
@@ -301,11 +320,12 @@ class DeviceController extends Controller
      *          description="order by latest or oldest"
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns maintenances data based on device",
      *        @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -316,9 +336,9 @@ class DeviceController extends Controller
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
         $order = $request->query('order');
-        $order = $order? ($order=='oldest'? 'asc':'desc'):'desc';
+        $order = $order ? ($order == 'oldest' ? 'asc' : 'desc') : 'desc';
 
-        return new MaintenanceResources(Maintenance::where('device_id', $device)->orderBy('created_at',$order)
-        ->with(['user', 'images'])->paginate($perPage));
+        return new MaintenanceResources(Maintenance::where('device_id', $device)->orderBy('created_at', $order)
+            ->with(['user', 'images'])->paginate($perPage));
     }
 }
