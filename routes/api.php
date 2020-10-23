@@ -50,7 +50,6 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::middleware(['scope:admin,user,read-only'])->get('/customers/{customer}', [CustomerController::class, 'show']);
     Route::middleware(['scope:admin'])->put('/customers/{customer}', [CustomerController::class, 'update']);
     Route::middleware(['scope:admin'])->delete('/customers/{customer}', [CustomerController::class, 'destroy']);
-    Route::middleware(['scope:admin'])->get('/customers/verify/name', [CustomerController::class, 'isCustomerAlreadyRegistered']);
     // Customer Devices
     Route::middleware(['scope:admin,user,read-only'])->get('/customers/{customer}/devices', [CustomerController::class, 'getDevices']);
 

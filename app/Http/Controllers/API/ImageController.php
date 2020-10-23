@@ -31,9 +31,10 @@ class ImageController extends Controller
      *           ),
      *       ),
      *
-     *      @OA\Response(response=200,description="Image Url received",
+     *      @OA\Response(response=201,description="Image Url received",
      *          @OA\MediaType(mediaType="application/json")
      *      ),
+     * @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"

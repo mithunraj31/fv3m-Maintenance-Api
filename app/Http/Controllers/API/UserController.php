@@ -92,7 +92,7 @@ class UserController extends Controller
      *      description="Returns user data",
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass user data",
      *       @OA\JsonContent(
      *       required={"name","email","role","password"},
      *       @OA\Property(property="name", type="string", example="ponpeera"),
@@ -147,7 +147,7 @@ class UserController extends Controller
      *      ),
      *     @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass user data",
      *       @OA\JsonContent(
      *       required={"name","email","role"},
      *       @OA\Property(property="name", type="string", example="ponpeera"),

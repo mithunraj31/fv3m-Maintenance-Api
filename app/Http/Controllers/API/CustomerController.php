@@ -273,40 +273,4 @@ class CustomerController extends Controller
         $pager = DeviceQueryBuilder::applyWithPaginator($request, $builder);
         return new DeviceResources($pager);
     }
-
-    /**
-     * @OA\Get(
-     *      path="/customers/verify/name",
-     *      tags={"Customers"},
-     *      summary="Customer verification",
-     * security={ {"bearer": {} }},
-     *      description="Checks whether customer is already registereda",
-     *
-     *   @OA\Parameter(
-     *          name="val",
-     *          required=true,
-     *          in="query",
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="returns boolean value",
-     *        @OA\JsonContent(ref="")
-     *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Access denied!"
-     *      )
-     * )
-     */
-    public function isCustomerAlreadyRegistered(Request $request)
-    {
-        $validatedData = $request->validate([
-            'val' => 'required',
-        ]);
-
-        $name = $request->query('val');
-        return [
-            'is_exists' => Customer::where('name', '=', $name)->exists()
-        ];
-    }
 }

@@ -60,7 +60,7 @@ class MemoController extends Controller
      *      description="Returns memo data",
      *     @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass memo data",
      *       @OA\JsonContent(
      *       required={"name","maintenance_id"},
      *       @OA\Property(property="description", type="string", example="camera repair"),
@@ -159,7 +159,7 @@ class MemoController extends Controller
      *      ),
      *    @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass memo data",
      *       @OA\JsonContent(
      *       required={"name","maintenance_id"},
      *       @OA\Property(property="name", type="string", example="maintenece"),
