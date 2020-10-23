@@ -243,7 +243,7 @@ class UserController extends Controller
      *   @OA\Parameter(
      *          name="val",
      *          required=true,
-     *          in="path",
+     *         in="query",
      *      ),
      *      @OA\Response(
      *          response=200,
