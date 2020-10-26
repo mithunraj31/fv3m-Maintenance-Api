@@ -201,11 +201,9 @@ class MemoController extends Controller
         ]);
 
         $memo->update($request->all());
-
+        $memo->images()->delete();
         // Update image list
         if ($request->imageUrls) {
-            $memo->images()->delete();
-
             $urls = [];
             foreach ($request->imageUrls as $url) {
                 $urls[] = ['url' => $url];

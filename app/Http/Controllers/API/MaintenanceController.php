@@ -209,10 +209,10 @@ class MaintenanceController extends Controller
         ]);
 
         $maintenance->update($request->all());
-
+        $maintenance->images()->delete();
         // Update image list
         if ($request->imageUrls) {
-            $maintenance->images()->delete();
+
 
             $urls = [];
             foreach ($request->imageUrls as $url) {
