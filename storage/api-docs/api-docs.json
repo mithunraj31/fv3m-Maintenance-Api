@@ -44,12 +44,12 @@
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "lasitha@gmail.com"
+                                        "example": "mithunraj.admin@mbel.co.jp"
                                     },
                                     "password": {
                                         "type": "string",
                                         "format": "password",
-                                        "example": "password"
+                                        "example": "123456"
                                     }
                                 },
                                 "type": "object"
@@ -58,8 +58,8 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "returns stored user data",
+                    "200": {
+                        "description": "returns stored user data and token",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -68,8 +68,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Access denied!"
+                    "401": {
+                        "description": "Invalid Credentials"
                     }
                 },
                 "security": [
@@ -89,12 +89,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -111,6 +111,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!."
@@ -130,7 +133,7 @@
                 "description": "Returns customer data",
                 "operationId": "App\\Http\\Controllers\\CustomerController::store",
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Enter customer data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -139,7 +142,7 @@
                                     "name"
                                 ],
                                 "properties": {
-                                    "email": {
+                                    "name": {
                                         "type": "string",
                                         "example": "mithun"
                                     },
@@ -164,6 +167,9 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
                         "description": "Access denied!"
                     }
@@ -175,7 +181,7 @@
                 ]
             }
         },
-        "/customers/{id}": {
+        "/customers/{customerId}": {
             "get": {
                 "tags": [
                     "Customers"
@@ -185,13 +191,13 @@
                 "operationId": "App\\Http\\Controllers\\CustomerController::show",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customerId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns customer data",
                         "content": {
                             "application/json": {
@@ -217,13 +223,13 @@
                 "operationId": "App\\Http\\Controllers\\CustomerController::update",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customerId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Enter Required customer data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -232,7 +238,7 @@
                                     "name"
                                 ],
                                 "properties": {
-                                    "email": {
+                                    "name": {
                                         "type": "string",
                                         "example": "mithun"
                                     },
@@ -247,7 +253,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns updated customer data",
                         "content": {
                             "application/json": {
@@ -256,6 +262,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!."
                     }
                 },
                 "security": [
@@ -273,7 +285,7 @@
                 "operationId": "App\\Http\\Controllers\\CustomerController::destroy",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customerId",
                         "in": "path",
                         "required": true
                     }
@@ -281,6 +293,12 @@
                 "responses": {
                     "200": {
                         "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!."
                     }
                 },
                 "security": [
@@ -290,7 +308,7 @@
                 ]
             }
         },
-        "  /customers/{customerId}/devices": {
+        "/customers/{customerId}/devices": {
             "get": {
                 "tags": [
                     "Customers"
@@ -306,18 +324,18 @@
                     },
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "returns based on customers",
+                    "200": {
+                        "description": "returns devices based on customers",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -329,8 +347,11 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
-                        "description": "Access denied!"
+                        "description": "Access denied!."
                     }
                 },
                 "security": [
@@ -350,12 +371,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -372,6 +393,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!."
@@ -391,7 +415,7 @@
                 "description": "Returns device data",
                 "operationId": "App\\Http\\Controllers\\DeviceController::store",
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Pass device data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -414,19 +438,37 @@
                                     },
                                     "customer_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "status_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
+                                    },
+                                    "serial_number": {
+                                        "type": "string",
+                                        "example": "MAF0225"
+                                    },
+                                    "regist_date": {
+                                        "type": "date",
+                                        "example": "2020-10-20"
+                                    },
+                                    "mutated_date": {
+                                        "type": "date",
+                                        "example": "2020-10-25"
+                                    },
+                                    "os": {
+                                        "type": "int",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "describe your device"
                                     },
                                     "imageUrls": {
                                         "type": "array",
                                         "items": {
-                                            "type": "array",
-                                            "items": {}
-                                        },
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -445,6 +487,9 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
                         "description": "Access denied!"
                     }
@@ -456,7 +501,7 @@
                 ]
             }
         },
-        "/devices/{id}": {
+        "/devices/{deviceId}": {
             "get": {
                 "tags": [
                     "Devices"
@@ -466,13 +511,13 @@
                 "operationId": "App\\Http\\Controllers\\DeviceController::show",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "deviceId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns device data",
                         "content": {
                             "application/json": {
@@ -481,6 +526,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -498,13 +549,13 @@
                 "operationId": "App\\Http\\Controllers\\DeviceController::update",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "deviceId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Pass device data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -527,19 +578,37 @@
                                     },
                                     "customer_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "status_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
+                                    },
+                                    "serial_number": {
+                                        "type": "string",
+                                        "example": "MAF0225"
+                                    },
+                                    "regist_date": {
+                                        "type": "date",
+                                        "example": "2020-10-20"
+                                    },
+                                    "mutated_date": {
+                                        "type": "date",
+                                        "example": "2020-10-25"
+                                    },
+                                    "os": {
+                                        "type": "int",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "describe your device"
                                     },
                                     "imageUrls": {
                                         "type": "array",
                                         "items": {
-                                            "type": "array",
-                                            "items": {}
-                                        },
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -548,7 +617,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns updated devices data",
                         "content": {
                             "application/json": {
@@ -557,6 +626,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -574,14 +649,20 @@
                 "operationId": "App\\Http\\Controllers\\DeviceController::destroy",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "deviceId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -607,17 +688,23 @@
                     },
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order by latest or oldest",
                         "required": false
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns maintenances data based on device",
                         "content": {
                             "application/json": {
@@ -629,6 +716,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!"
@@ -670,11 +760,14 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Image Url received",
                         "content": {
                             "application/json": {}
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!"
@@ -697,12 +790,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -719,6 +812,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!."
@@ -738,7 +834,7 @@
                 "description": "Returns maintenance data",
                 "operationId": "App\\Http\\Controllers\\MaintenanceController::store",
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Pass maintenance data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -766,11 +862,13 @@
                                     },
                                     "device_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "imageUrls": {
-                                        "type": "string",
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        "type": "array",
+                                        "items": {
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -789,6 +887,9 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
                         "description": "Access denied!"
                     }
@@ -800,7 +901,7 @@
                 ]
             }
         },
-        "/maintenances/{id}": {
+        "/maintenances/{maintenanceId}": {
             "get": {
                 "tags": [
                     "Maintenances"
@@ -810,13 +911,13 @@
                 "operationId": "App\\Http\\Controllers\\MaintenanceController::show",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "maintenanceId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns maintenance data",
                         "content": {
                             "application/json": {
@@ -825,6 +926,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!."
                     }
                 },
                 "security": [
@@ -839,16 +946,16 @@
                 ],
                 "summary": "Update maintenance",
                 "description": "updates maintenance data",
-                "operationId": "App\\Http\\Controllers\\MaintenanceController::edit",
+                "operationId": "App\\Http\\Controllers\\MaintenanceController::update",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "maintenanceId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Pass maintenance data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -876,11 +983,13 @@
                                     },
                                     "device_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "imageUrls": {
-                                        "type": "string",
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        "type": "array",
+                                        "items": {
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -889,7 +998,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns updated maintenance data",
                         "content": {
                             "application/json": {
@@ -898,6 +1007,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!."
                     }
                 },
                 "security": [
@@ -915,14 +1030,20 @@
                 "operationId": "App\\Http\\Controllers\\MaintenanceController::destroy",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "maintenanceId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!."
                     }
                 },
                 "security": [
@@ -948,17 +1069,23 @@
                     },
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order by latest or oldest",
                         "required": false
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns memos data based on maintenance",
                         "content": {
                             "application/json": {
@@ -970,6 +1097,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!"
@@ -992,12 +1122,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     },
                     {
                         "name": "page",
-                        "in": "path",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -1014,6 +1144,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!."
@@ -1033,7 +1166,7 @@
                 "description": "Returns memo data",
                 "operationId": "App\\Http\\Controllers\\MemoController::store",
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Pass memo data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -1043,21 +1176,19 @@
                                     "maintenance_id"
                                 ],
                                 "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "maintenece"
-                                    },
                                     "description": {
                                         "type": "string",
                                         "example": "camera repair"
                                     },
                                     "maintenance_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "imageUrls": {
                                         "type": "string",
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        "items": {
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -1076,6 +1207,80 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/memos/{memoId}": {
+            "get": {
+                "tags": [
+                    "Memos"
+                ],
+                "summary": "Get memo By Id",
+                "description": "Get Individual memo data according to memo-id",
+                "operationId": "App\\Http\\Controllers\\MemoController::show",
+                "parameters": [
+                    {
+                        "name": "memoId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "returns memo data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Memos"
+                ],
+                "summary": "Delete memo",
+                "description": "delete memo data",
+                "operationId": "App\\Http\\Controllers\\MemoController::destroy",
+                "parameters": [
+                    {
+                        "name": "memoId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
                         "description": "Access denied!"
                     }
@@ -1088,38 +1293,6 @@
             }
         },
         "/memos/{id}": {
-            "get": {
-                "tags": [
-                    "Memos"
-                ],
-                "summary": "Get memo By Id",
-                "description": "Get Individual memo data according to memo-id",
-                "operationId": "App\\Http\\Controllers\\MemoController::show",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "returns memo data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": ""
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            },
             "put": {
                 "tags": [
                     "Memos"
@@ -1135,7 +1308,7 @@
                     }
                 ],
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Pass memo data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -1155,11 +1328,13 @@
                                     },
                                     "maintenance_id": {
                                         "type": "int",
-                                        "example": "1"
+                                        "example": 1
                                     },
                                     "imageUrls": {
                                         "type": "string",
-                                        "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        "items": {
+                                            "example": "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -1168,7 +1343,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns updated memos data",
                         "content": {
                             "application/json": {
@@ -1177,41 +1352,12 @@
                                 }
                             }
                         }
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Memos"
-                ],
-                "summary": "Delete memo",
-                "description": "delete memo data",
-                "operationId": "App\\Http\\Controllers\\MemoController::destroy",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true
                     },
-                    {
-                        "name": "perPage",
-                        "in": "path",
-                        "required": false
+                    "401": {
+                        "description": "Unauthenticated"
                     },
-                    {
-                        "name": "page",
-                        "in": "path",
-                        "required": false
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Success"
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -1242,8 +1388,11 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
-                        "description": "Access denied!."
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -1263,7 +1412,12 @@
                 "parameters": [
                     {
                         "name": "perPage",
-                        "in": "path",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
                         "required": false
                     }
                 ],
@@ -1280,6 +1434,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!."
@@ -1299,7 +1456,7 @@
                 "description": "Returns user data",
                 "operationId": "App\\Http\\Controllers\\API\\UserController::store",
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Pass user data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -1350,6 +1507,9 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
                     "403": {
                         "description": "Access denied!"
                     }
@@ -1377,7 +1537,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns user data",
                         "content": {
                             "application/json": {
@@ -1386,6 +1546,12 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
                     }
                 },
                 "security": [
@@ -1393,7 +1559,9 @@
                         "bearer": []
                     }
                 ]
-            },
+            }
+        },
+        "/users/{userId}": {
             "put": {
                 "tags": [
                     "Users"
@@ -1403,13 +1571,13 @@
                 "operationId": "App\\Http\\Controllers\\API\\UserController::update",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "requestBody": {
-                    "description": "Pass user credentials",
+                    "description": "Pass user data",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -1444,7 +1612,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "returns updated user data",
                         "content": {
                             "application/json": {
@@ -1453,6 +1621,80 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "description": "delete user data",
+                "operationId": "App\\Http\\Controllers\\API\\UserController::destroy",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Access denied!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/users/verify/email": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Email verification",
+                "description": "Checks whether email is already registereda",
+                "operationId": "App\\Http\\Controllers\\API\\UserController::isEmailisAlreadyRegistered",
+                "parameters": [
+                    {
+                        "name": "val",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "returns boolean value",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": ""
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
                     },
                     "403": {
                         "description": "Access denied!"
@@ -1468,8 +1710,8 @@
     },
     "components": {
         "responses": {
-            "403": {
-                "description": "Access denied!"
+            "401": {
+                "description": "Unauthenticated"
             }
         },
         "securitySchemes": {

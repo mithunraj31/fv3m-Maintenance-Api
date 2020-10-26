@@ -4,10 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\UserResources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -20,19 +22,25 @@ class UserController extends Controller
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
+     *      ),
+     *     @OA\Parameter(
+     *          name="page",
+     *          required=false,
+     *          in="query",
      *      ),
      *     @OA\Response(response="200",
      *      description="returns list of users with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new UserResource(User::paginate($perPage));
+        return new UserResources(User::paginate($perPage));
     }
     /**
      * @OA\Get(
@@ -48,10 +56,11 @@ class UserController extends Controller
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns user data",
-     *       @OA\JsonContent(ref="")),
+     *       @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -85,7 +94,7 @@ class UserController extends Controller
      *      description="Returns user data",
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass user data",
      *       @OA\JsonContent(
      *       required={"name","email","role","password"},
      *       @OA\Property(property="name", type="string", example="ponpeera"),
@@ -101,6 +110,7 @@ class UserController extends Controller
      *          description="returns stored user data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -127,20 +137,20 @@ class UserController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/users/{id}",
+     *      path="/users/{userId}",
      *      tags={"Users"},
      *      summary="Update user",
      * security={ {"bearer": {} }},
      *      description="updates user data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="userId",
      *          required=true,
      *          in="path",
      *      ),
      *     @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass user data",
      *       @OA\JsonContent(
      *       required={"name","email","role"},
      *       @OA\Property(property="name", type="string", example="ponpeera"),
@@ -151,10 +161,11 @@ class UserController extends Controller
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated user data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -167,22 +178,102 @@ class UserController extends Controller
             return response(['message' => 'Access denied!'], 403);
         }
 
-        $validatedData = $request->validate([
-            'name' => 'unique:users|max:255',
-            'email' => 'email',
-            'password' => '',
-            'role' => 'required | in:' . implode(',', $this->getRoles()),
-        ]);
+        $validatedData = $request->validate(
+            [
+                'name' => [
+                    'max:255',
+                    Rule::unique('users')->ignore($user->id),
+                ],
+                'email' => 'email',
+                'password' => '',
+                'role' => 'required | in:' . implode(',', $this->getRoles()),
+            ]
+        );
 
-        if ($request->password) {
-            $request->password = Hash::make($request->password);
+        $requestBody = $request->only(['name', 'email', 'role']);
+
+        if (!empty($request->password)) {
+            $password = Hash::make($request->password);
+            $requestBodyWithNewPassword = array_merge($requestBody, ['password' => $password]);
+            $user->update($requestBodyWithNewPassword);
+        } else {
+            $user->update($requestBody);
         }
-        $user->update();
+
         return response($user);
+    }
+
+    /**
+     * @OA\Delete(
+     *      path="/users/{userId}",
+     *      tags={"Users"},
+     *      summary="Delete user",
+     *   security={ {"bearer": {} }},
+     *      description="delete user data",
+     *
+     *   @OA\Parameter(
+     *          name="userId",
+     *          required=true,
+     *          in="path",
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return response(['message' => 'Success!'], 200);
     }
 
     private function getRoles()
     {
         return array('admin', 'user', 'read-only');
+    }
+
+
+    /**
+     * @OA\Get(
+     *      path="/users/verify/email",
+     *      tags={"Users"},
+     *      summary="Email verification",
+     * security={ {"bearer": {} }},
+     *      description="Checks whether email is already registereda",
+     *
+     *   @OA\Parameter(
+     *          name="val",
+     *          required=true,
+     *         in="query",
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="returns boolean value",
+     *        @OA\JsonContent(ref="")
+     *       ),
+     * *  @OA\Response(response="401", description="Unauthenticated"),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
+     * )
+     */
+    public function isEmailisAlreadyRegistered(Request $request)
+    {
+        $validatedData = $request->validate([
+            'val' => 'required|email',
+        ]);
+
+        $email = $request->query('val');
+        return [
+            'is_exists' => User::where('email', '=', $email)->exists()
+        ];
     }
 }

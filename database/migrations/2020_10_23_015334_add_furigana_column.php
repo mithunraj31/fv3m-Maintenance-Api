@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMemosTable extends Migration
+class AddFuriganaColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateMemosTable extends Migration
      */
     public function up()
     {
-        Schema::create('memos', function (Blueprint $table) {
-            $table->id();
-            $table->longText('description');
-            $table->timestamps();
-
-            $table->bigInteger('maintenance_id')->unsigned();
-            $table->bigInteger('user_id')->unsigned();
+        Schema::table('customers', function (Blueprint $table) {
+            //
+            $table->string('furigana')->nullable();
         });
     }
 
@@ -30,6 +26,8 @@ class CreateMemosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('memos');
+        Schema::table('customers', function (Blueprint $table) {
+            //
+        });
     }
 }

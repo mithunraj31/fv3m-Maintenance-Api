@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\MemoResource;
+use App\Http\Resources\MemoResources;
 use App\Models\Memo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,24 +24,25 @@ class MemoController extends Controller
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Response(response="200",
      *      description="returns list of memos with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *   @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
     public function index(Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new MemoResource(Memo::with(['user', 'images', 'maintenance'])->paginate($perPage));
+        return new MemoResources(Memo::with(['user', 'images', 'maintenance'])->paginate($perPage));
     }
 
 
@@ -59,14 +61,13 @@ class MemoController extends Controller
      *      description="Returns memo data",
      *     @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass memo data",
      *       @OA\JsonContent(
      *       required={"name","maintenance_id"},
-     *       @OA\Property(property="name", type="string", example="maintenece"),
      *       @OA\Property(property="description", type="string", example="camera repair"),
-     *       @OA\Property(property="maintenance_id", type="int",  example="1"),
+     *       @OA\Property(property="maintenance_id", type="int",  example=1),
      *       @OA\Property(property="imageUrls", type="string",
-     *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *      @OA\Items(example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png")),
      *    ),
      * ),
      *      @OA\Response(
@@ -74,6 +75,7 @@ class MemoController extends Controller
      *          description="returns stored memo data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -84,22 +86,22 @@ class MemoController extends Controller
     {
         //validating
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
             'description' => 'nullable|max:255',
             'maintenance_id' => 'required|exists:App\Models\Maintenance,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'string'
         ]);
 
         $memo = new Memo($validatedData);
         $memo->user_id = Auth::user()->id;
         $memo->save();
 
-        $urls = [];
-        foreach ($request->imageUrls as $url) {
-            $urls[] = ['url' => $url];
+        if ($request->imageUrls) {
+            $urls = [];
+            foreach ($request->imageUrls as $url) {
+                $urls[] = ['url' => $url];
+            }
+            $memo->images()->createMany($urls);
         }
-        $memo->images()->createMany($urls);
-
         return response($memo->load('images'), 201);
     }
 
@@ -111,21 +113,27 @@ class MemoController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/memos/{id}",
+     *      path="/memos/{memoId}",
      *      tags={"Memos"},
      *      summary="Get memo By Id",
      *   security={ {"bearer": {} }},
      *      description="Get Individual memo data according to memo-id",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="memoId",
      *          required=true,
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns memo data",
-     *       @OA\JsonContent(ref="")),
+     *       @OA\JsonContent(ref="")
+     *     ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *       )
      *
      * )
@@ -159,21 +167,26 @@ class MemoController extends Controller
      *      ),
      *    @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass memo data",
      *       @OA\JsonContent(
      *       required={"name","maintenance_id"},
      *       @OA\Property(property="name", type="string", example="maintenece"),
      *       @OA\Property(property="description", type="string", example="camera repair"),
-     *       @OA\Property(property="maintenance_id", type="int",  example="1"),
+     *       @OA\Property(property="maintenance_id", type="int",  example=1),
      *       @OA\Property(property="imageUrls", type="string",
-     *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *       @OA\Items(example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png")),
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated memos data",
      *        @OA\JsonContent(ref="")
-     *       )
+     *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *
      * )
      */
@@ -184,17 +197,15 @@ class MemoController extends Controller
             'name' => 'max:255',
             'description' => 'nullable|max:255',
             'maintenance_id' => 'exists:App\Models\Maintenance,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'string'
         ]);
 
         $memo->update($request->all());
-
+        $memo->images()->delete();
         // Update image list
-        if ($request->url) {
-            $memo->images()->delete();
-
+        if ($request->imageUrls) {
             $urls = [];
-            foreach ($request->url as $url) {
+            foreach ($request->imageUrls as $url) {
                 $urls[] = ['url' => $url];
             }
             $memo->images()->createMany($urls);
@@ -211,32 +222,26 @@ class MemoController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/memos/{id}",
+     *      path="/memos/{memoId}",
      *      tags={"Memos"},
      *      summary="Delete memo",
      *   security={ {"bearer": {} }},
      *      description="delete memo data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="memoId",
      *          required=true,
      *          in="path",
      *      ),
-     *   @OA\Parameter(
-     *          name="perPage",
-     *          required=false,
-     *          in="path",
-     *      ),
-     *    @OA\Parameter(
-     *          name="page",
-     *          required=false,
-     *          in="path",
-     *      ),
-     *
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="Success",
-     *       )
+     *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     * @OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *
      * )
      */

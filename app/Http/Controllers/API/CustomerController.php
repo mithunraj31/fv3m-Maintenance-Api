@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\CustomerResources;
-use App\Http\Resources\Customers;
 use App\Http\Resources\DeviceResources;
 use App\Models\Customer;
 use App\Models\Device;
+use App\QueryBuilders\CustomerQueryBuilder;
+use App\QueryBuilders\DeviceQueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,24 +28,26 @@ class CustomerController extends Controller
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *  @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Response(response="200",
      *      description="returns list of customers with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *      @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
     public function index(Request $request): CustomerResources
     {
-        $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new CustomerResources(Customer::with('user')->paginate($perPage));
+        $builder = Customer::with('user');
+        $pager = CustomerQueryBuilder::applyWithPaginator($request, $builder);
+        return new CustomerResources($pager);
     }
 
 
@@ -63,10 +66,10 @@ class CustomerController extends Controller
      *      description="Returns customer data",
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Enter customer data",
      *       @OA\JsonContent(
      *       required={"name"},
-     *       @OA\Property(property="email", type="string", example="mithun"),
+     *       @OA\Property(property="name", type="string", example="mithun"),
      *       @OA\Property(property="description", type="string",  example="new customer"),
      *    ),
      * ),
@@ -75,6 +78,7 @@ class CustomerController extends Controller
      *          description="returns stored customer data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -87,6 +91,7 @@ class CustomerController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'nullable|max:255',
+            'furigana' => 'nullable',
         ]);
         $group = new Customer($validatedData);
 
@@ -105,22 +110,27 @@ class CustomerController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/customers/{id}",
+     *      path="/customers/{customerId}",
      *      tags={"Customers"},
      *      summary="Get customer By Id",
      *      security={ {"bearer": {} }},
      *      description="Get Individual customer data according to customer-id",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="customerId",
      *          required=true,
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns customer data",
      *       @OA\JsonContent(ref="")),
-     *       )
+     *       ),
+     *     @OA\Response(response="401", description="Unauthenticated"),
+     *       OA\Response(
+     *          response=403,
+     *          description="Access denied!"
+     *      )
      *
      * )
      */
@@ -139,31 +149,33 @@ class CustomerController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/customers/{id}",
+     *      path="/customers/{customerId}",
      *      tags={"Customers"},
      *      summary="Update customer",
      *      security={ {"bearer": {} }},
      *      description="updates customer data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="customerId",
      *          required=true,
      *          in="path",
      *      ),
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Enter Required customer data",
      *       @OA\JsonContent(
      *       required={"name"},
-     *       @OA\Property(property="email", type="string", example="mithun"),
+     *       @OA\Property(property="name", type="string", example="mithun"),
      *       @OA\Property(property="description", type="string",  example="new customer"),
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated customer data",
      *        @OA\JsonContent(ref="")
-     *       )
+     *       ),
+     *       @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(response="403", description="Access denied!.")
      *
      * )
      */
@@ -173,6 +185,7 @@ class CustomerController extends Controller
         $request->validate([
             'name' => 'max:255',
             'description' => 'nullable|max:255',
+            'furigana' => 'nullable',
         ]);
 
         $request->user_id = Auth::user()->id;
@@ -190,14 +203,14 @@ class CustomerController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/customers/{id}",
+     *      path="/customers/{customerId}",
      *      tags={"Customers"},
      *      summary="Delete customer",
      *     security={ {"bearer": {} }},
      *      description="delete customer data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="customerId",
      *          required=true,
      *          in="path",
      *      ),
@@ -205,7 +218,10 @@ class CustomerController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Success",
-     *       )
+     *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(response="403", description="Access denied!.")
+     *
      *
      * )
      */
@@ -222,7 +238,7 @@ class CustomerController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="  /customers/{customerId}/devices",
+     *      path="/customers/{customerId}/devices",
      *      tags={"Customers"},
      *      summary="Get devices based on customer",
      *     security={ {"bearer": {} }},
@@ -235,28 +251,28 @@ class CustomerController extends Controller
      *   @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *  @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *      @OA\Response(
-     *          response=201,
-     *          description="returns based on customers",
+     *          response=200,
+     *          description="returns devices based on customers",
      *        @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))
      *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Access denied!"
-     *      )
+     *       @OA\Response(response="401", description="Unauthenticated"),
+     *  @OA\Response(response="403", description="Access denied!.")
+     *
      * )
      */
     public function getDevices($customer, Request $request)
     {
-        $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new DeviceResources(Device::where('customer_id', $customer)->paginate($perPage));
+        $builder = Device::where('customer_id', $customer);
+        $pager = DeviceQueryBuilder::applyWithPaginator($request, $builder);
+        return new DeviceResources($pager);
     }
 }

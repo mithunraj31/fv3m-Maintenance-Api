@@ -26,17 +26,18 @@ class MaintenanceController extends Controller
      *     @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *      @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Response(response="200",
      *      description="returns list of maintenances with pagination .",
      *      @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *     @OA\Response(response="403", description="Access denied!.")
      * )
      */
@@ -61,16 +62,17 @@ class MaintenanceController extends Controller
      *      description="Returns maintenance data",
      *      @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass maintenance data",
      *       @OA\JsonContent(
      *       required={"name","device_id"},
      *       @OA\Property(property="name", type="string", example="maintenece"),
      *       @OA\Property(property="description", type="string", example="camera repair"),
      *       @OA\Property(property="lat", type="string",  example="35.26"),
      *       @OA\Property(property="lng", type="string", example="176.2"),
-     *       @OA\Property(property="device_id", type="int",  example="1"),
-     *       @OA\Property(property="imageUrls", type="string",
-     *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *       @OA\Property(property="device_id", type="int",  example=1),
+     *       @OA\Property(property="imageUrls", type="array",
+     *       @OA\Items(example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png")),
+     *
      *    ),
      * ),
      *
@@ -79,6 +81,7 @@ class MaintenanceController extends Controller
      *          description="returns stored maintenance data",
      *        @OA\JsonContent(ref="")
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -94,18 +97,20 @@ class MaintenanceController extends Controller
             'lat' => 'nullable|max:30',
             'lng' => 'nullable|max:30',
             'device_id' => 'required|exists:App\Models\Device,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'string'
         ]);
 
         $maintenance = new Maintenance($validatedData);
         $maintenance->user_id = Auth::user()->id;
         $maintenance->save();
 
-        $urls = [];
-        foreach ($request->url as $url) {
-            $urls[] = ['url' => $url];
+        if ($request->imageUrls) {
+            $urls = [];
+            foreach ($request->imageUrls as $url) {
+                $urls[] = ['url' => $url];
+            }
+            $maintenance->images()->createMany($urls);
         }
-        $maintenance->images()->createMany($urls);
 
         return response($maintenance->load('images'), 201);
     }
@@ -118,21 +123,24 @@ class MaintenanceController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/maintenances/{id}",
+     *      path="/maintenances/{maintenanceId}",
      *      tags={"Maintenances"},
      *      summary="Get maintenance By Id",
      *   security={ {"bearer": {} }},
      *      description="Get Individual maintenance data according to maintenance-id",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="maintenanceId",
      *          required=true,
      *          in="path",
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns maintenance data",
-     *       @OA\JsonContent(ref="")),
+     *       @OA\JsonContent(ref="")
+     *       ),
+     *   @OA\Response(response="401", description="Unauthenticated"),
+     *     @OA\Response(response="403", description="Access denied!.")
      *       )
      *
      * )
@@ -152,40 +160,43 @@ class MaintenanceController extends Controller
      */
     /**
      * @OA\Put(
-     *      path="/maintenances/{id}",
+     *      path="/maintenances/{maintenanceId}",
      *      tags={"Maintenances"},
      *      summary="Update maintenance",
      *   security={ {"bearer": {} }},
      *      description="updates maintenance data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="maintenanceId",
      *          required=true,
      *          in="path",
      *      ),
      *       @OA\RequestBody(
      *       required=true,
-     *       description="Pass user credentials",
+     *       description="Pass maintenance data",
      *       @OA\JsonContent(
      *       required={"name","device_id"},
      *       @OA\Property(property="name", type="string", example="maintenece"),
      *       @OA\Property(property="description", type="string", example="camera repair"),
      *       @OA\Property(property="lat", type="string",  example="35.26"),
      *       @OA\Property(property="lng", type="string", example="176.2"),
-     *       @OA\Property(property="device_id", type="int",  example="1"),
-     *       @OA\Property(property="imageUrls", type="string",
-     *       example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png"),
+     *       @OA\Property(property="device_id", type="int",  example=1),
+     *       @OA\Property(property="imageUrls", type="array",
+     *        @OA\Items(example= "https://5.imimg.com/data5/AL/CC/MY-19161367/counterbalanced-forklift-250x250.png")),
      *    ),
      * ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns updated maintenance data",
      *        @OA\JsonContent(ref="")
+     *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
+     *     @OA\Response(response="403", description="Access denied!.")
      *       )
      *
      * )
      */
-    public function edit(Maintenance $maintenance, Request $request)
+    public function update(Maintenance $maintenance, Request $request)
     {
         //validating
         $validatedData = $request->validate([
@@ -194,17 +205,17 @@ class MaintenanceController extends Controller
             'lat' => 'nullable|max:30',
             'lng' => 'nullable|max:30',
             'device_id' => 'exists:App\Models\Device,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'string'
         ]);
 
         $maintenance->update($request->all());
-
+        $maintenance->images()->delete();
         // Update image list
-        if ($request->url) {
-            $maintenance->images()->delete();
+        if ($request->imageUrls) {
+
 
             $urls = [];
-            foreach ($request->url as $url) {
+            foreach ($request->imageUrls as $url) {
                 $urls[] = ['url' => $url];
             }
             $maintenance->images()->createMany($urls);
@@ -222,21 +233,24 @@ class MaintenanceController extends Controller
      */
     /**
      * @OA\Delete(
-     *      path="/maintenances/{id}",
+     *      path="/maintenances/{maintenanceId}",
      *      tags={"Maintenances"},
      *      summary="Delete maintenance",
      *   security={ {"bearer": {} }},
      *      description="delete maintenance data",
      *
      *   @OA\Parameter(
-     *          name="id",
+     *          name="maintenanceId",
      *          required=true,
      *          in="path",
      *      ),
      *
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="Success",
+     *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
+     *     @OA\Response(response="403", description="Access denied!.")
      *       )
      *
      * )
@@ -265,19 +279,26 @@ class MaintenanceController extends Controller
      *    @OA\Parameter(
      *          name="perPage",
      *          required=false,
-     *          in="path",
+     *          in="query",
      *      ),
      *     @OA\Parameter(
      *          name="page",
      *          required=false,
-     *          in="path",
+     *          in="query",
+     *      ),
+     *     @OA\Parameter(
+     *          name="order",
+     *          required=false,
+     *          in="query",
+     *          description="order by latest or oldest"
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="returns memos data based on maintenance",
      *        @OA\JsonContent( type="array",
      *         @OA\Items(ref=""))
      *       ),
+     *  @OA\Response(response="401", description="Unauthenticated"),
      *      @OA\Response(
      *          response=403,
      *          description="Access denied!"
@@ -288,6 +309,10 @@ class MaintenanceController extends Controller
     public function getMemos($maintenance, Request $request)
     {
         $perPage = $request->query('perPage') ? (int)$request->query('perPage') : 15;
-        return new MemoResources(Memo::where('maintenance_id', $maintenance)->with(['user', 'images'])->paginate($perPage));
+        $order = $request->query('order');
+        $order = $order ? ($order == 'oldest' ? 'asc' : 'desc') : 'desc';
+
+        return new MemoResources(Memo::where('maintenance_id', $maintenance)->orderBy('created_at', $order)
+            ->with(['user', 'images'])->paginate($perPage));
     }
 }
