@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
@@ -66,9 +68,11 @@ class ImageController extends Controller
             $data = substr($base64_image, strpos($base64_image, ',') + 1);
 
             $data = base64_decode($data);
-
+            $user = Auth::user()->name;
+            $mytime = Carbon::now();
+            $timesting = $mytime->toDateTimeString();
             // Start uploading s3
-            $path  =  Storage::disk('s3')->put('images',  $data,  'public');
+            $path  =  Storage::disk('s3')->put('images/'.$user.'_'.$timesting.'jpeg',  $data,  'public');
 
             return response(['imageUrl' => $path, 'uri' => env('AWS_S3_URL') . $path, 'prefix' => env('AWS_S3_URL')], 201);
         }
