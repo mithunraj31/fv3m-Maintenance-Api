@@ -97,7 +97,7 @@ class MaintenanceController extends Controller
             'lat' => 'nullable|max:30',
             'lng' => 'nullable|max:30',
             'device_id' => 'required|exists:App\Models\Device,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'string'
         ]);
 
         $maintenance = new Maintenance($validatedData);
@@ -205,7 +205,7 @@ class MaintenanceController extends Controller
             'lat' => 'nullable|max:30',
             'lng' => 'nullable|max:30',
             'device_id' => 'exists:App\Models\Device,id',
-            'imageUrls.*' => 'url'
+            'imageUrls.*' => 'string'
         ]);
 
         $maintenance->update($request->all());
