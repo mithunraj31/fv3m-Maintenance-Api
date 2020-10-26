@@ -72,7 +72,8 @@ class ImageController extends Controller
             $mytime = Carbon::now();
             $timesting = $mytime->toDateTimeString();
             // Start uploading s3
-            $path  =  Storage::disk('s3')->put('images/'.$user.'_'.$timesting.'jpeg',  $data,  'public');
+            $path  = 'images/'.$user.'_'.$timesting.'.jpeg';
+            Storage::disk('s3')->put($path, $data,  'public');
 
             return response(['imageUrl' => $path, 'uri' => env('AWS_S3_URL') . $path, 'prefix' => env('AWS_S3_URL')], 201);
         }
