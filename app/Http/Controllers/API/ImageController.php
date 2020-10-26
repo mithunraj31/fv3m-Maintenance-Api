@@ -53,4 +53,23 @@ class ImageController extends Controller
 
         return response(['imageUrl' => $path, 'uri' => env('AWS_S3_URL') . $path, 'prefix' => env('AWS_S3_URL')], 201);
     }
+    public function storeBase64(Request $request)
+    {
+        //validating
+        $validatedData = $request->validate([
+            'image' => 'required|string',
+        ]);
+        $base64_image  =  $request->get('image');
+
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64_image)) {
+            $data = substr($base64_image, strpos($base64_image, ',') + 1);
+
+            $data = base64_decode($data);
+
+            // Start uploading s3
+            $path  =  Storage::disk('s3')->put('images',  $data,  'public');
+
+            return response(['imageUrl' => $path, 'uri' => env('AWS_S3_URL') . $path, 'prefix' => env('AWS_S3_URL')], 201);
+        }
+    }
 }

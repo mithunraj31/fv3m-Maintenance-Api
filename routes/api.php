@@ -81,6 +81,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
 
     // Image Routes
     Route::middleware(['scope:admin,user'])->post('/images', [ImageController::class, 'store']);
+    Route::middleware(['scope:admin,user'])->post('/images/base64', [ImageController::class, 'storeBase64']);
 
     // Status Routes
     Route::middleware(['scope:admin,user,read-only'])->get('/statuses', [StatusController::class, 'index']);
