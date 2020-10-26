@@ -235,9 +235,10 @@ class DeviceController extends Controller
 
         $device->update($request->all());
 
+        $device->images()->delete();
         // Update image list
         if ($request->imageUrls) {
-            $device->images()->delete();
+
 
             $urls = [];
             foreach ($request->imageUrls as $url) {
