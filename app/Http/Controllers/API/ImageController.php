@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ImageController extends Controller
 {
@@ -72,7 +73,8 @@ class ImageController extends Controller
             $mytime = Carbon::now();
             $timesting = $mytime->toDateTimeString();
             // Start uploading s3
-            $path  = 'images/'.$user.'_'.$timesting.'.jpeg';
+            $rand =(string) Str::uuid();
+            $path  = 'images/'.$user.'_'.$timesting.'_'.$rand.'.jpeg';
             Storage::disk('s3')->put($path, $data,  'public');
 
             return response(['imageUrl' => $path, 'uri' => env('AWS_S3_URL') . $path, 'prefix' => env('AWS_S3_URL')], 201);
