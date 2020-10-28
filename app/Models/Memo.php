@@ -19,6 +19,8 @@ class Memo extends Model
         'url',
         'maintenance_id',
         'description',
+        'lat',
+        'lng'
     ];
 
     public function user()
