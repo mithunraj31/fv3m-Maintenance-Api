@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\MemoResource;
 use App\Http\Resources\MemoResources;
 use App\Models\Memo;
