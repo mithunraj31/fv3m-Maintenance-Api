@@ -3,11 +3,11 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ImageController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\DeviceController;
-use App\Http\Controllers\MaintenanceController;
-use App\Http\Controllers\MemoController;
-use App\Http\Controllers\StatusController;
+use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\DeviceController;
+use App\Http\Controllers\API\MaintenanceController;
+use App\Http\Controllers\API\MemoController;
+use App\Http\Controllers\API\StatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
