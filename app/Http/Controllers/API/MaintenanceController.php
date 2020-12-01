@@ -94,7 +94,7 @@ class MaintenanceController extends Controller
         //validating
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'description' => 'nullable|max:255',
+            'description' => 'nullable',
             'lat' => 'nullable|max:30',
             'lng' => 'nullable|max:30',
             'device_id' => 'required|exists:App\Models\Device,id',
@@ -202,7 +202,7 @@ class MaintenanceController extends Controller
         //validating
         $validatedData = $request->validate([
             'name' => 'max:255',
-            'description' => 'nullable|max:255',
+            'description' => 'nullable',
             'lat' => 'nullable|max:30',
             'lng' => 'nullable|max:30',
             'device_id' => 'exists:App\Models\Device,id',
