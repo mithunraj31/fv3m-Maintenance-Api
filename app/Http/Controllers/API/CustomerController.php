@@ -272,7 +272,7 @@ class CustomerController extends Controller
      */
     public function getDevices($customer, Request $request)
     {
-        $builder = Device::where('customer_id', $customer);
+        $builder = Device::with(['user', 'images'])->where('customer_id', $customer);
         $pager = DeviceQueryBuilder::applyWithPaginator($request, $builder);
         return new DeviceResources($pager);
     }
