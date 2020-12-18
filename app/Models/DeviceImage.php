@@ -26,6 +26,6 @@ class DeviceImage extends Model
         return $this->belongsTo('App\Models\Device','device_id');
     }
     public function getFullUrlAttribute() {
-        return env('AWS_S3_URL').$this->url;
+        return config('aws.s3.base_url').$this->url;
     }
 }

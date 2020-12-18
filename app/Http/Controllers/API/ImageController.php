@@ -55,7 +55,7 @@ class ImageController extends Controller
         $image  =  $request->file('image');
         $path  =  Storage::disk('s3')->put('images',  $image,  'public');
 
-        return response(['imageUrl' => $path, 'uri' => env('AWS_S3_URL') . $path, 'prefix' => env('AWS_S3_URL')], 201);
+        return response(['imageUrl' => $path, 'uri' => config('aws.s3.base_url') . $path, 'prefix' => config('aws.s3.base_url')], 201);
     }
     public function storeBase64(Request $request)
     {
@@ -77,7 +77,7 @@ class ImageController extends Controller
             $path  = 'images/'.$user.'_'.$timesting.'_'.$rand.'.jpeg';
             Storage::disk('s3')->put($path, $data,  'public');
 
-            return response(['imageUrl' => $path, 'uri' => env('AWS_S3_URL') . $path, 'prefix' => env('AWS_S3_URL')], 201);
+            return response(['imageUrl' => $path, 'uri' => config('aws.s3.base_url') . $path, 'prefix' => config('aws.s3.base_url')], 201);
         }
     }
 }

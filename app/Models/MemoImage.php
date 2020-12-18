@@ -22,7 +22,7 @@ class MemoImage extends Model
     protected $appends = ['full_url'];
 
     public function getFullUrlAttribute() {
-        return env('AWS_S3_URL').$this->url;
+        return config('aws.s3.base_url').$this->url;
     }
     public function memo()
     {
