@@ -125,7 +125,7 @@ class UserController extends Controller
             'name' => 'required|unique:users|max:255',
             'email' => 'required|email',
             'password' => 'required',
-            'role' => 'required | in:' . implode(',', $this->getRoles()),
+            'role' => 'required',
         ]);
         $user = new User($validatedData);
         $user->password = Hash::make($request->password);
